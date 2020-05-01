@@ -6,7 +6,6 @@
   "dependencies": {
     "express": "^4.17.1",
     "nodemon": "^2.0.3",
-    "ntp-client": "^0.5.3",
     "sequelize": "^5.21.6",
     "sqlite3": "^4.1.1"
   },
@@ -15,7 +14,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon src/server.js"
   },
   "author": "",
   "license": "ISC"

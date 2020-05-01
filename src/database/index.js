@@ -18,5 +18,6 @@ Student.init(connection);
 /*** Associate Models ***/
 
 Subject.associate(connection.models);
+Student.associate(connection.models);
 
 module.exports = connection;
