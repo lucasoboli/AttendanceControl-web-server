@@ -1,0 +1,23 @@
+.space {
+    height: 8em;
+}
+
+.space2 {
+    height: 1em;
+}
+
+.table-col-subCod-QR {
+    width: 12%;
+}
+
+.table-col-class {
+    width: 6%;
+}
+
+.table-col-name {
+    width: max-content;
+}
+
+.table-col-schedule {
+    width: 16%;
+}
