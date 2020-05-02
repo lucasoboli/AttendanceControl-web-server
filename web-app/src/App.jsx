@@ -15,7 +15,7 @@ function App() {
     return (
       <Router>
         <div>
-          {/*<Navbar /> CONSERTAR PROBLEMA */}
+          {/*<Navbar />*/}
           <Route exact path="/" component={Home} />
           <Route path="/main" component={Main} />
           <Route path="/QRScreen" component={QRScreen} />

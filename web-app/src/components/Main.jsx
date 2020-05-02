@@ -12,13 +12,16 @@ export default class Main extends Component {
                     MAIN PAGE WHEN LOGIN ACTIVE
                 </div>
                 <div className="space"></div>
-                <Link to="">
-                    <Button variant="success"> + Cadastrar Nova Turma </Button>
+                <Link to="/registerclass">
+                    <Button variant="outline-primary"> + Cadastrar Nova Turma </Button>
+                </Link>
+                <Link to="/main">
+                    <Button variant="outline-danger"> - Remover Turma </Button>
                 </Link>
                 <div className="space2"></div>
 
-                <Table striped bordered hover>
-                    <thead>
+                <Table striped bordered borderless hover>
+                    <thead className="table-row-names">
                         <tr>
                         <th className="table-col-subCod-QR"> Código </th>
                         <th className="table-col-class"> Turma </th>
@@ -35,7 +38,7 @@ export default class Main extends Component {
                             <td>2M23 4M45</td>
                             <td>
                                 <Link to="/qrscreen">
-                                    <Button variant="outline-success">
+                                    <Button variant="success">
                                         Gerar
                                     </Button>
                                 </Link>
@@ -48,7 +51,7 @@ export default class Main extends Component {
                             <td>4M45 6M45</td>
                             <td>
                                 <Link to="/qrscreen">
-                                    <Button variant="outline-success" font-type="bold">
+                                    <Button variant="success" font-type="bold">
                                         Gerar
                                     </Button>
                                 </Link>
@@ -61,7 +64,7 @@ export default class Main extends Component {
                             <td>2T12</td>
                             <td>
                                 <Link to="/qrscreen">
-                                    <Button variant="outline-success" font-type="bold">
+                                    <Button variant="success" font-type="bold">
                                         Gerar
                                     </Button>
                                 </Link>
@@ -74,7 +77,7 @@ export default class Main extends Component {
                             <td>3T12 5T34</td>
                             <td>
                                 <Link to="/qrscreen">
-                                    <Button variant="outline-success" font-type="bold">
+                                    <Button variant="success" font-type="bold">
                                         Gerar
                                     </Button>
                                 </Link>

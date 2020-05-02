@@ -1,9 +1,15 @@
+
 .space {
     height: 8em;
 }
 
 .space2 {
     height: 1em;
+}
+
+.table-row-names {
+    background-color: slategrey;
+    color: white;
 }
 
 .table-col-subCod-QR {
