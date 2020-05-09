@@ -1,0 +1,52 @@
+
+.rc-form-subject-code {
+    width: 20%;
+    float: left;
+    padding-right: 1%;
+    padding-bottom: 2%
+}
+
+.rc-form-subject-name {
+    width: 80%;
+    float: right;
+    padding-left: 1%;
+    padding-bottom: 2%
+}
+
+.rc-form-class-code {
+    width: 20%;
+    float: left;
+    padding-right: 1%;
+    padding-bottom: 2%;
+}
+
+.rc-form-time-code {
+    width: 20%;
+    float: left;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 2%;
+}
+
+.rc-form-time2-code {
+    width: 20%;
+    float: left;
+    padding-left: 1%;
+    padding-bottom: 2%;
+}
+
+.rc-form-time2-alert {
+    width: 38%;
+    float: right;
+    padding-bottom: 2%;
+    color: rgb(255, 150, 64) !important;
+}
+
+.rc-form-file-input {
+    width: 60%;
+    padding-bottom: 2%;
+}
+
+.rc-button-position {
+    text-align: center;
+}

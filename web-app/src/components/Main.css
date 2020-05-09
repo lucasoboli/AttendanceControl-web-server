@@ -1,29 +1,78 @@
-
-.space {
-    height: 8em;
+.m-navbar {
+    width: 100%;
+    height: 4rem;
+    padding-top: 1rem;
+    position: fixed;
+    background-color: #14a5ff;
+    text-align: center;
+    color: white;
+    font-weight: 800;
+    font-size: 16pt;
 }
 
-.space2 {
-    height: 1em;
+.m-container {
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 
-.table-row-names {
-    background-color: slategrey;
+@media (max-width: 500px) {
+    .m-buttons-div {
+        display: flex;
+        padding-bottom: 2%;
+    }
+
+    .m-button-remove {
+        padding-left: 10%;
+    }
+}
+
+.m-button-register {
+    float: left;
+    padding-bottom: 1%;
+}
+
+.m-button-remove {
+    float: right;
+    padding-bottom: 1%;
+}
+
+.table td {
+    vertical-align: middle !important;
+}
+
+.m-table-col-subCod {
+    width: 12%;
+    text-align: left;
+}
+
+.m-table-row-names {
+    background-color: #3c3c3c;
     color: white;
 }
 
-.table-col-subCod-QR {
+.m-table-col-edit {
+    width: 2%;
+    text-align: center;
+}
+
+.m-table-col-QR {
     width: 12%;
+    text-align: center;
 }
 
-.table-col-class {
+.m-table-col-class {
     width: 6%;
+    text-align: center;
 }
 
-.table-col-name {
+.m-table-col-name {
     width: max-content;
 }
 
-.table-col-schedule {
+.m-table-col-schedule {
     width: 16%;
+}
+
+.m-bottom-space-div {
+    height: 100px;
 }

@@ -1,34 +1,34 @@
-import React, { Component, Container } from 'react'
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Link from 'react-router-dom/Link';
 import './CustomNavbar.css';
 
-export default class CustomNavbar extends Component {
+
+export default class CustomNavbar extends React.Component {
     render() {
         return (
+
             <Container>
                 <Navbar default collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <Link to="/"> attendancecontrol</Link>
+                            <Link to='/'> attendancecontrol</Link>
                         </Navbar.Brand>
 
-                        <Navbar.Toggle />
+                        <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     </Navbar.Header>
 
-                    <Navbar.Collapse>
-                        <Nav pullRight>
-
-                            <NavItem eventKey={1} componentClass={Link} to="/">
-                                Button1
-                            </NavItem>
-                            <NavItem eventKey={2} componentClass={Link} to="/home">
-                                Button2
-                            </NavItem>
+                    <Navbar.Collapse id='basic-navbar-nav'>
+                        <Nav className='ml-auto'>
+                            <Nav.Item> <Nav.Link href='#'> Button1 </Nav.Link> </Nav.Item>
+                            <Nav.Item> <Nav.Link href='#'> Button2 </Nav.Link> </Nav.Item>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
             </Container>
-        )
+
+        );
     }
 }
