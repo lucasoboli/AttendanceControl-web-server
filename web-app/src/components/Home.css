@@ -1,0 +1,23 @@
+
+.jumbotron {
+    margin-bottom: 2em;
+}
+
+.form-body-button-position {
+    text-align: center;
+}
+
+.modal-body {
+    justify-content: center;
+    padding-left: 12%;
+    padding-right: 12%;
+}
+
+.form-footer {
+    justify-content: center;
+    text-align: left;
+}
+
+.div-align {
+    text-align: center;
+}
