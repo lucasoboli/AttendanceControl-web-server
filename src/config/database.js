@@ -5,5 +5,7 @@ module.exports = {
     define: {
         timestamps: true,
         underscored: true
-    }
+    },
+    jwtSecret: "Nta$K-AP1",
+    jwtSession:	{session:	false}
 };
