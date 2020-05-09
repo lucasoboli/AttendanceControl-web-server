@@ -2,10 +2,17 @@ const Professor = require('../controllers/Professor');
 const Subject = require('../controllers/Subject');
 const Student = require('../controllers/Student');
 
+const { token, auth } = require('../controllers/Authentication');
+
 module.exports = (app) => {
 
     app
+        .route('/login')
+        .post(token)
+
+    app
         .route('/professor')
+        .all(auth().authenticate())
         .get(Professor.index)
         .post(Professor.create)
 

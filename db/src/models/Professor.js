@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const { Model, DataTypes } = require('sequelize');
 
 class Professor extends Model{
@@ -28,6 +29,16 @@ class Professor extends Model{
             sequelize,
         },
         );
+        super.beforeCreate(
+            function (user) {
+                const salt = bcrypt.genSaltSync();
+                user.password = bcrypt.hashSync(user.password, salt);
+            }
+        )
+    }
+
+    static isPassword(encodedPassword, password){
+        return	bcrypt.compareSync(password, encodedPassword);
     }
 }
 
