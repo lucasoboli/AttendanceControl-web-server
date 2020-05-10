@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Link from 'react-router-dom/Link';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Button from 'react-bootstrap/Button';
@@ -17,7 +18,44 @@ const Jumbo = {
 };
 
 export default class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            password: ""
+        };
+    }
+
+    handleChange = event => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    };
+
+    onSubmit = event => {
+        event.preventDefault()
+
+        const userObject = {
+            email: this.state.email,
+            password: this.state.password,
+        };
+
+        axios.post('http://localhost:3333/login', userObject)
+            .then((res) => {
+                console.log(res.data)
+            }).catch((error) => {
+                console.log(error)
+            });
+
+        this.setState({ email: '', password: '' })
+    }
+
     render() {
+        const {
+            email,
+            password
+        } = this.state;
+
         return (
 
             <React.Fragment>
@@ -44,6 +82,9 @@ export default class Home extends React.Component {
                                             placeholder='Email'
                                             aria-label='Email'
                                             aria-describedby='basic-addon2'
+                                            name='email'
+                                            value={email}
+                                            onChange={this.handleChange}
                                         />
                                         <InputGroup.Append>
                                             <InputGroup.Text id='basic-addon2'>@unifei.edu.br</InputGroup.Text>
@@ -52,14 +93,20 @@ export default class Home extends React.Component {
                                 </Form.Group>
 
                                 <Form.Group controlId='formBasicPassword'>
-                                    <Form.Control type='password' placeholder='Senha' />
+                                    <Form.Control
+                                        type='password'
+                                        placeholder='Senha'
+                                        name='password'
+                                        value={password}
+                                        onChange={this.handleChange}
+                                    />
                                 </Form.Group>
 
                                 <div style={{textAlign:'center'}}>
                                     <Link to='/main'>
-                                        <Button variant='primary' type='submit'>
+                                        <Button variant='primary' type='submit' onClick={this.onSubmit}>
                                             ENTRAR
-                                    </Button>
+                                        </Button>
                                     </Link>
                                 </div>
                             </Form>

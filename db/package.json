@@ -3,8 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "express.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/server.js",
+    "client": "cd ../web-app && npm start",
+    "dev": "concurrently --kill-others-on-fail \"npm start\" \"npm run client\""
+  },
   "dependencies": {
     "bcrypt": "^4.0.1",
+    "concurrently": "^5.2.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "jwt-simple": "^0.5.6",
     "nodemon": "^2.0.3",
@@ -15,10 +23,6 @@
   },
   "devDependencies": {
     "sequelize-cli": "^5.5.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/server.js"
   },
   "author": "",
   "license": "ISC"
