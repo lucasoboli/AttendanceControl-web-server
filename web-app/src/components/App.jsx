@@ -32,9 +32,9 @@ class App extends React.Component {
             <Route exact path="/" component={ Home } />
             <Route path="/home" component={ Home } />
             <Route path="/main" component={ Main } />
-            <Route path="/qrscreen" component={ QRScreen } />
-            <Route path="/registerclass" component={ RegisterClass } />
-            <Route path="/registeruser" component={ RegisterUser } />
+            <Route path="/qr-screen" component={ QRScreen } />
+            <Route path="/register-class" component={ RegisterClass } />
+            <Route path="/register-user" component={ RegisterUser } />
             <Route component= { NoMatch }/>
           </Switch>
         </Router>

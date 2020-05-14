@@ -41,6 +41,7 @@ export default class Home extends React.Component {
                                 <Form.Group controlId='formBasicEmail'>
                                     <InputGroup>
                                         <FormControl
+                                            id='email'
                                             placeholder='Email'
                                             aria-label='Email'
                                             aria-describedby='basic-addon2'
@@ -52,7 +53,11 @@ export default class Home extends React.Component {
                                 </Form.Group>
 
                                 <Form.Group controlId='formBasicPassword'>
-                                    <Form.Control type='password' placeholder='Senha' />
+                                    <Form.Control
+                                        id='password'
+                                        type='password'
+                                        placeholder='Senha'
+                                    />
                                 </Form.Group>
 
                                 <div style={{textAlign:'center'}}>
@@ -66,7 +71,7 @@ export default class Home extends React.Component {
                         </Modal.Body>
 
                         <Modal.Footer style={{justifyContent:'center'}}>
-                            <Link to='/registeruser'>
+                            <Link to='/register-user'>
                                 <Button variant='outline-primary'>
                                     CADASTRE-SE
                             </Button>

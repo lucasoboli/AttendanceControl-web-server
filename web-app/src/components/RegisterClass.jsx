@@ -7,10 +7,13 @@ import Form from 'react-bootstrap/Form';
 import './RegisterClass.css';
 
 
+{/*https://www.youtube.com/watch?v=10FNqoPpNbE*/}
+
+
+
 function infoHandler() {
     alert('Isso vai ser o Modal que abre na página anterior');
 }
-
 
 export default class RegisterClass extends React.Component {
     render() {
@@ -23,7 +26,7 @@ export default class RegisterClass extends React.Component {
                     <Button variant='info' onClick={infoHandler}> SHOW INFO </Button>
                 </Link>
 
-                <Modal.Dialog size='lg'>
+                <Modal.Dialog size='lg' id='modalId'>
 
                     <Modal.Header closeButton>
                         <Modal.Title id='contained-modal-title-vcenter'>
@@ -35,15 +38,17 @@ export default class RegisterClass extends React.Component {
                         <Form>
                             <Form.Group>
                                 <div className='rc-form-subject-code'>
-                                    <Form.Label> Código </Form.Label>
+                                    <Form.Label htmlFor='subject-code'> Código </Form.Label>
                                     <Form.Control
+                                        id='subject-code'
                                         placeholder='Ex: ECO101'
                                         aria-label='Cod-Disciplina'
                                     />
                                 </div>
                                 <div className='rc-form-subject-name'>
-                                    <Form.Label> Nome da Disciplina </Form.Label>
+                                    <Form.Label htmlFor='subject-name'> Nome da Disciplina </Form.Label>
                                     <Form.Control
+                                        id='subject-name'
                                         placeholder='Ex: Introdução à Engenharia de Computação'
                                         aria-label='Nome'
                                     />
@@ -52,22 +57,25 @@ export default class RegisterClass extends React.Component {
 
                             <Form.Group>
                                 <div className='rc-form-class-code'>
-                                    <Form.Label> Turma </Form.Label>
+                                    <Form.Label htmlFor='class-code'> Turma </Form.Label>
                                     <Form.Control
+                                        id='class-code'
                                         placeholder='Ex: T01'
                                         aria-label='Cod-Turma'
                                     />
                                 </div>
                                 <div className='rc-form-time-code'>
-                                    <Form.Label> Horário </Form.Label>
+                                    <Form.Label htmlFor='time-code'> Horário </Form.Label>
                                     <Form.Control
+                                        id='time-code'
                                         placeholder='Ex: 2M123'
                                         aria-label='Cod-Horario'
                                     />
                                 </div>
                                 <div className='rc-form-time2-code'>
-                                    <Form.Label> 2º Horário </Form.Label>
+                                    <Form.Label htmlFor='2-time-code'> 2º Horário </Form.Label>
                                     <Form.Control
+                                        id='2-time-code'
                                         placeholder='Ex: 6T12'
                                         aria-label='Cod-Horario-2'
                                     />
@@ -80,13 +88,13 @@ export default class RegisterClass extends React.Component {
 
                             <Form.Group>
                                 <div className='rc-form-file-input'>
-                                    <Form.Label> Arquivo com Nome e Matrícula dos Alunos </Form.Label>
+                                    <Form.Label htmlFor='students-file'> Arquivo com Nome e Matrícula dos Alunos </Form.Label>
                                     <Form.File
-                                        id='studentsFile' label='.extension' custom
+                                        id='students-file' label='.extension' custom
                                     />
                                 </div>
                             </Form.Group>
-                            
+
                             <div className='rc-button-position'>
                                 <Button variant='primary' type='submit'>
                                     CADASTRAR
@@ -94,10 +102,17 @@ export default class RegisterClass extends React.Component {
                             </div>
                         </Form>
                     </Modal.Body>
+
+                    <Modal.Footer>
+                        <div>
+                            <Link to='/main'>
+                                <Button variant='outline-secondary'> VOLTAR </Button>
+                            </Link>
+                        </div>
+                    </Modal.Footer>
                 </Modal.Dialog>
 
             </Container>
-
-        )
+        );
     }
 }
