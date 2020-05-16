@@ -56,7 +56,6 @@ module.exports = {
         subject.code_class = req.body.code_class;
         subject.code_time = req.body.code_time;
 
-
         if (subject.code_subject === "" || subject.name === "" || subject.code_class === "" || subject.code_time === "")
             return res.status(400).json({message: "Os dados não podem estar em branco."});
 

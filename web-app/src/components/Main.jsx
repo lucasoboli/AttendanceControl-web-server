@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Link from 'react-router-dom/Link';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -7,6 +8,13 @@ import './Main.css';
 
 
 class Main extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            subjects: [],
+        };
+    }
 
     openNewClassModal = event => {
         event.preventDefault();
@@ -27,6 +35,15 @@ class Main extends React.Component {
         // Back end
     }
 
+    componentDidMount = () => {
+        axios.get('http://localhost:3333/subject')
+            .then((res) => {
+                console.log(res.data)
+                this.setState({ subjects: res.data })
+            }).catch((error) => {
+                console.log(error)
+            });
+    }
 
     render() {
         return (

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -29,9 +30,25 @@ class RegisterUser extends React.Component {
 
     onSubmit = event => {
         event.preventDefault();
-        alert('ok');
+        const {
+            email,
+            userName,
+            userSurname,
+            password
+        } = this.state;
 
-        // Back End
+        const data = {
+            name: userName + ' ' + userSurname,
+            email: email,
+            password: password
+        };
+
+        axios.post('http://localhost:3333/professor/', data)
+            .then((res) => {
+                console.log(res.data)
+            }).catch((error) => {
+                console.log(error)
+            });
     }
 
 
@@ -57,7 +74,7 @@ class RegisterUser extends React.Component {
 
                     <Modal.Body className='ru-modal-body'>
                         <Form>
-                            <Form.Group controlId='formBasicEmail'>
+                            <Form.Group>
                                 <Form.Label htmlFor='email'> Email Institucional </Form.Label>
                                 <InputGroup>
                                     <FormControl
@@ -92,7 +109,7 @@ class RegisterUser extends React.Component {
                                 />
                             </InputGroup>
 
-                            <Form.Group controlId='formBasicPassword'>
+                            <Form.Group>
                                 <Form.Label htmlFor='password'> Digite uma Senha </Form.Label>
                                 <Form.Control
                                     type='password'
@@ -104,7 +121,7 @@ class RegisterUser extends React.Component {
                                 />
                             </Form.Group>
 
-                            <Form.Group controlID='formBasicPassword'>
+                            <Form.Group>
                                 <Form.Label> Repita a Senha </Form.Label>
                                 <Form.Control
                                     type='password'

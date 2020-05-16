@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -29,9 +30,27 @@ class EditClass extends React.Component {
 
     onSubmit = event => {
         event.preventDefault();
-        alert('ok');
+        const {
+            subjectCode,
+            subjectName,
+            classCode,
+            timeCode,
+            time2Code
+        } = this.state;
 
-        // Back End
+        const data = {
+            code_subject: subjectCode,
+            name: subjectName,
+            code_class: classCode,
+            code_time: timeCode + '_' + time2Code
+        };
+
+        axios.put('http://localhost:3333/subject/4', data)
+            .then((res) => {
+                console.log(res.data)
+            }).catch((error) => {
+                console.log(error)
+            });
     }
 
     onClose = event => {

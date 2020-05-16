@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -29,9 +30,29 @@ class RegisterClass extends React.Component {
 
     onSubmit = event => {
         event.preventDefault();
-        alert('ok');
 
-        // Back End
+        const {
+            subjectCode,
+            subjectName,
+            classCode,
+            timeCode,
+            time2Code,
+            studentsFile
+        } = this.state;
+
+        const data = {
+            code_subject: subjectCode,
+            name: subjectName,
+            code_class: classCode,
+            code_time: timeCode + '_' + time2Code
+        };
+
+        axios.post('http://localhost:3333/professor/3/subject/', data)
+            .then((res) => {
+                console.log(res.data)
+            }).catch((error) => {
+                console.log(error)
+            });
     }
 
     onClose = event => {

@@ -12,7 +12,6 @@ module.exports = (app) => {
 
     app
         .route('/professor')
-        .all(auth().authenticate())
         .get(Professor.index)
         .post(Professor.create)
 
