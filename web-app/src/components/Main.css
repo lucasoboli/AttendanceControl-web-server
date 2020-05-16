@@ -10,7 +10,12 @@
     font-size: 16pt;
 }
 
-.m-container {
+.m-primary-container {
+    background-color: snow;
+    min-width: 600px;
+}
+
+.m-secondary-container {
     padding-top: 2%;
     padding-bottom: 2%;
 }
@@ -22,7 +27,7 @@
     }
 
     .m-button-remove {
-        padding-left: 10%;
+        padding-left: 2%;
     }
 }
 

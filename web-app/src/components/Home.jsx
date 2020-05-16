@@ -11,15 +11,11 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import './Home.css';
 
 
-const Jumbo = {
-    paddingTop: '10rem',
-    width: '80%',
-    margin: 'auto'
-};
+class Home extends React.Component {
 
-export default class Home extends React.Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             email: "",
             password: ""
@@ -30,7 +26,7 @@ export default class Home extends React.Component {
         this.setState({
             [event.target.name]: event.target.value
         });
-    };
+    }
 
     onSubmit = event => {
         event.preventDefault()
@@ -51,6 +47,7 @@ export default class Home extends React.Component {
     }
 
     render() {
+
         const {
             email,
             password
@@ -62,14 +59,17 @@ export default class Home extends React.Component {
                 <div className='h-navbar'> attendancecontrol.unifei </div>
                 
                 <Container>
-                    <Jumbotron style={Jumbo}>
+                    <Jumbotron>
                         <div style={{textAlign:'center'}}>
                             <h2>AttendanceControl</h2>
                             <p>Este é um mecanismo para automação do controle de presença em sala de aula.</p>
                         </div>
                     </Jumbotron>
 
+                    <br/>
+
                     <Modal.Dialog>
+                        
                         <Modal.Header>
                             <Modal.Title>Bem vindo, professor! </Modal.Title>
                         </Modal.Header>
@@ -79,7 +79,6 @@ export default class Home extends React.Component {
                                 <Form.Group controlId='formBasicEmail'>
                                     <InputGroup>
                                         <FormControl
-                                            id='email'
                                             placeholder='Email'
                                             aria-label='Email'
                                             aria-describedby='basic-addon2'
@@ -95,7 +94,6 @@ export default class Home extends React.Component {
 
                                 <Form.Group controlId='formBasicPassword'>
                                     <Form.Control
-                                        id='password'
                                         type='password'
                                         placeholder='Senha'
                                         name='password'
@@ -106,8 +104,11 @@ export default class Home extends React.Component {
 
                                 <div style={{textAlign:'center'}}>
                                     <Link to='/main'>
-                                        <Button variant='primary' type='submit' onClick={this.onSubmit}>
-                                            ENTRAR
+                                        <Button
+                                            variant='primary'
+                                            type='submit'
+                                            onClick={this.onSubmit}
+                                        > ENTRAR 
                                         </Button>
                                     </Link>
                                 </div>
@@ -116,11 +117,14 @@ export default class Home extends React.Component {
 
                         <Modal.Footer style={{justifyContent:'center'}}>
                             <Link to='/register-user'>
-                                <Button variant='outline-primary'>
-                                    CADASTRE-SE
-                            </Button>
+                                <Button
+                                    variant='outline-primary'
+                                    type='button'
+                                > CADASTRE-SE 
+                                </Button>
                             </Link>
                         </Modal.Footer>
+                        
                     </Modal.Dialog>
 
                 </Container>
@@ -128,3 +132,5 @@ export default class Home extends React.Component {
         )
     }
 }
+
+export default Home;

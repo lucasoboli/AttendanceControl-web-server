@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Container from 'react-bootstrap/Container';
 import BackgroundImage404Path from '../images/404.jpg';
 
 
 const BackgroundImage404 = {
-    position: 'fixed',
-    backgroundSize: 'cover',
+    //position: 'fixed',
+    backgroundSize: 'auto',
     backgroundPosition: 'center',
-    zIndex: '0',
+    float: 'left',
+    opacity: '0.6',
+    zIndex: '-0',
     inherit: 'none'
 };
 
@@ -16,16 +18,22 @@ const Content = {
 };
 
 
-export default class NoMatch extends Component {
+class NoMatch extends React.Component {
     render() {
         return (
+
             <Container>
-                <img src={BackgroundImage404Path} alt='/' style={BackgroundImage404} />
-                <div style={Content} >
-                    <h1> 404 </h1>
-                    <h3> No Match for this. </h3>
+                <div id='main'>
+                    <img src={BackgroundImage404Path} alt='/' style={BackgroundImage404} />
+                    <div style={Content} className='fof'>
+                        <h1> 404 </h1>
+                        <h3> No Match for this. </h3>
+                        <a href="/"> Take Me Home </a>
+                    </div>
                 </div>
             </Container>
         );
     }
 }
+
+export default NoMatch;

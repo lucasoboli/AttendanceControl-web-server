@@ -6,7 +6,7 @@ import Link from 'react-router-dom/Link';
 import './CustomNavbar.css';
 
 
-export default class CustomNavbar extends React.Component {
+class CustomNavbar extends React.Component {
     render() {
         return (
 
@@ -32,3 +32,5 @@ export default class CustomNavbar extends React.Component {
         );
     }
 }
+
+export default CustomNavbar;

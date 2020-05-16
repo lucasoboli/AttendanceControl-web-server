@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'react-router-dom/Link';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -7,26 +6,60 @@ import Form from 'react-bootstrap/Form';
 import './RegisterClass.css';
 
 
-{/*https://www.youtube.com/watch?v=10FNqoPpNbE*/}
+class RegisterClass extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            subjectCode: "",
+            subjectName: "",
+            classCode: "",
+            timeCode: "",
+            time2Code: "",
+            studentsFile: ""
+        };
+    }
+
+    handleChange = event => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
+
+    onSubmit = event => {
+        event.preventDefault();
+        alert('ok');
+
+        // Back End
+    }
+
+    onClose = event => {
+        event.preventDefault();
+
+        // Fechar modal
+    }
 
 
-
-function infoHandler() {
-    alert('Isso vai ser o Modal que abre na página anterior');
-}
-
-export default class RegisterClass extends React.Component {
     render() {
+
+        const {
+            subjectCode,
+            subjectName,
+            classCode,
+            timeCode,
+            time2Code,
+            studentsFile
+        } = this.state;
+
+
         return (
 
             <Container>
-                <p> FORMS TO REGISTER A NEW CLASS (must have active login token)</p>
 
-                <Link to='#'>
-                    <Button variant='info' onClick={infoHandler}> SHOW INFO </Button>
-                </Link>
+                <Button variant='warning' > testar </Button>
 
-                <Modal.Dialog size='lg' id='modalId'>
+                <Modal size='lg' show='false' showModal='false'>
 
                     <Modal.Header closeButton>
                         <Modal.Title id='contained-modal-title-vcenter'>
@@ -40,17 +73,21 @@ export default class RegisterClass extends React.Component {
                                 <div className='rc-form-subject-code'>
                                     <Form.Label htmlFor='subject-code'> Código </Form.Label>
                                     <Form.Control
-                                        id='subject-code'
                                         placeholder='Ex: ECO101'
                                         aria-label='Cod-Disciplina'
+                                        name='subjectCode'
+                                        value={subjectCode}
+                                        onChange={this.handleChange}
                                     />
                                 </div>
                                 <div className='rc-form-subject-name'>
                                     <Form.Label htmlFor='subject-name'> Nome da Disciplina </Form.Label>
                                     <Form.Control
-                                        id='subject-name'
                                         placeholder='Ex: Introdução à Engenharia de Computação'
                                         aria-label='Nome'
+                                        name='subjectName'
+                                        value={subjectName}
+                                        onChange={this.handleChange}
                                     />
                                 </div>
                             </Form.Group>
@@ -59,30 +96,36 @@ export default class RegisterClass extends React.Component {
                                 <div className='rc-form-class-code'>
                                     <Form.Label htmlFor='class-code'> Turma </Form.Label>
                                     <Form.Control
-                                        id='class-code'
                                         placeholder='Ex: T01'
                                         aria-label='Cod-Turma'
+                                        name='classCode'
+                                        value={classCode}
+                                        onChange={this.handleChange}
                                     />
                                 </div>
                                 <div className='rc-form-time-code'>
                                     <Form.Label htmlFor='time-code'> Horário </Form.Label>
                                     <Form.Control
-                                        id='time-code'
                                         placeholder='Ex: 2M123'
                                         aria-label='Cod-Horario'
+                                        name='timeCode'
+                                        value={timeCode}
+                                        onChange={this.handleChange}
                                     />
                                 </div>
                                 <div className='rc-form-time2-code'>
                                     <Form.Label htmlFor='2-time-code'> 2º Horário </Form.Label>
                                     <Form.Control
-                                        id='2-time-code'
                                         placeholder='Ex: 6T12'
                                         aria-label='Cod-Horario-2'
+                                        name='time2Code'
+                                        value={time2Code}
+                                        onChange={this.handleChange}
                                     />
                                 </div>
                                 <div className='rc-form-time2-alert'>
                                     Se houver apenas 1 horário semanal para esta disciplina,
-                                    deixe o campo [2º Horário] vazio.
+                                    deixe o campo "2º Horário" vazio.
                                 </div>
                             </Form.Group>
 
@@ -90,14 +133,21 @@ export default class RegisterClass extends React.Component {
                                 <div className='rc-form-file-input'>
                                     <Form.Label htmlFor='students-file'> Arquivo com Nome e Matrícula dos Alunos </Form.Label>
                                     <Form.File
-                                        id='students-file' label='.extension' custom
+                                        label='.extension'
+                                        custom
+                                        name='studentsFile'
+                                        value={studentsFile}
+                                        onChange={this.handleChange}
                                     />
                                 </div>
                             </Form.Group>
 
                             <div className='rc-button-position'>
-                                <Button variant='primary' type='submit'>
-                                    CADASTRAR
+                                <Button
+                                    variant='primary'
+                                    type='submit'
+                                    onClick={this.onSubmit}
+                                > CADASTRAR 
                                 </Button>
                             </div>
                         </Form>
@@ -105,14 +155,20 @@ export default class RegisterClass extends React.Component {
 
                     <Modal.Footer>
                         <div>
-                            <Link to='/main'>
-                                <Button variant='outline-secondary'> VOLTAR </Button>
-                            </Link>
+                            <Button
+                                variant='outline-secondary'
+                                type='reset'
+                                onClick={this.onClose}
+                            > CANCELAR 
+                            </Button>
                         </div>
                     </Modal.Footer>
-                </Modal.Dialog>
+
+                </Modal>
 
             </Container>
         );
     }
 }
+
+export default RegisterClass;

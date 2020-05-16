@@ -1,0 +1,41 @@
+
+.ec-form-subject-code {
+    width: 20%;
+    float: left;
+    padding-right: 1%;
+    padding-bottom: 2%
+}
+
+.ec-form-subject-name {
+    width: 80%;
+    float: right;
+    padding-left: 1%;
+    padding-bottom: 2%
+}
+
+.ec-form-class-code {
+    width: 20%;
+    float: left;
+    padding-right: 1%;
+    padding-bottom: 2%;
+}
+
+.ec-form-time-code {
+    width: 40%;
+    float: left;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 2%;
+}
+
+.ec-form-time2-code {
+    width: 40%;
+    float: left;
+    padding-left: 1%;
+    padding-bottom: 2%;
+}
+
+.ec-button-position {
+    text-align: center;
+    padding-bottom: 2%;
+}
