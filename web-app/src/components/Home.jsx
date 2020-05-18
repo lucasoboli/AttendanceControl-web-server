@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import Link from 'react-router-dom/Link';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -11,6 +10,12 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import './Home.css';
 
 
+const initialErrorState = {
+    emailError: "",
+    passwordError: ""
+};
+
+
 class Home extends React.Component {
 
     constructor(props) {
@@ -18,7 +23,9 @@ class Home extends React.Component {
         
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            emailError: "",
+            passwordError: ""
         };
     }
 
@@ -43,8 +50,35 @@ class Home extends React.Component {
                 console.log(error)
             });
 
-        this.setState({ email: '', password: '' })
+        this.setState({ password: '' });
+
+        const isValid = this.validate();
+        if (isValid) {
+            // Limpando erros do Form
+            this.setState(initialErrorState);
+        }
     }
+
+    validate = () => {
+        let emailError = '';
+        let passwordError = '';
+
+        if (this.state.email.length === 0) {
+            emailError = '* Este campo é obrigatório';
+        }
+
+        if (this.state.password.length === 0) {
+            passwordError = '* Este campo é obrigatório';
+        }
+
+        if (emailError || passwordError) {
+            this.setState({ emailError, passwordError });
+            return false;
+        }
+
+        return true;
+    }
+
 
     render() {
 
@@ -56,7 +90,6 @@ class Home extends React.Component {
         return (
 
             <React.Fragment>
-                <div className='h-navbar'> attendancecontrol.unifei </div>
                 
                 <Container>
                     <Jumbotron>
@@ -65,8 +98,6 @@ class Home extends React.Component {
                             <p>Este é um mecanismo para automação do controle de presença em sala de aula.</p>
                         </div>
                     </Jumbotron>
-
-                    <br/>
 
                     <Modal.Dialog>
                         
@@ -90,6 +121,7 @@ class Home extends React.Component {
                                             <InputGroup.Text id='basic-addon2'>@unifei.edu.br</InputGroup.Text>
                                         </InputGroup.Append>
                                     </InputGroup>
+                                    <div className='h-error-msg'> {this.state.emailError} </div>
                                 </Form.Group>
 
                                 <Form.Group controlId='formBasicPassword'>
@@ -100,29 +132,28 @@ class Home extends React.Component {
                                         value={password}
                                         onChange={this.handleChange}
                                     />
+                                    <div className='h-error-msg'> {this.state.passwordError} </div>
                                 </Form.Group>
 
                                 <div style={{textAlign:'center'}}>
-                                    <Link to='/main'>
-                                        <Button
-                                            variant='primary'
-                                            type='submit'
-                                            onClick={this.onSubmit}
-                                        > ENTRAR 
-                                        </Button>
-                                    </Link>
+                                    <Button
+                                        variant='primary'
+                                        type='submit'
+                                        onClick={this.onSubmit}
+                                        href='/main'
+                                    > ENTRAR 
+                                    </Button>
                                 </div>
                             </Form>
                         </Modal.Body>
 
                         <Modal.Footer style={{justifyContent:'center'}}>
-                            <Link to='/register-user'>
-                                <Button
-                                    variant='outline-primary'
-                                    type='button'
-                                > CADASTRE-SE 
-                                </Button>
-                            </Link>
+                            <Button
+                                variant='outline-primary'
+                                type='button'
+                                href='/register-user'
+                            > CADASTRE-SE 
+                            </Button>
                         </Modal.Footer>
                         
                     </Modal.Dialog>

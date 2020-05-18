@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import Link from 'react-router-dom/Link';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
@@ -49,8 +48,6 @@ class Main extends React.Component {
         return (
 
             <React.Fragment>
-                <div className='m-navbar'> attendancecontrol.unifei </div>
-
                 <Container className='m-primary-container'>
                     <br /><br /><br /><br /><br />
 
@@ -61,7 +58,8 @@ class Main extends React.Component {
                                 <Button
                                     variant='outline-primary'
                                     type='button'
-                                    onClick={this.openNewClassModal}
+                                    onClick
+                                    href='/register-class'
                                 > + Cadastrar Nova Turma 
                                 </Button>
                             </div>
@@ -70,7 +68,7 @@ class Main extends React.Component {
                                 <Button
                                     variant='outline-danger'
                                     type='button'
-                                    onClick={this.removeClass}
+                                    onClick
                                 > - Remover Turma 
                                 </Button>
                             </div>
@@ -102,13 +100,12 @@ class Main extends React.Component {
                                     <td>Cálculo I</td>
                                     <td>2M23 4M45</td>
                                     <td>
-                                        <Link to='/qr-screen'>
-                                            <Button
-                                                variant='success'
-                                                type='buton'
-                                            > GERAR 
-                                            </Button>
-                                        </Link>
+                                        <Button
+                                            variant='success'
+                                            type='buton'
+                                            href='/qr-screen'
+                                        > GERAR 
+                                        </Button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -125,13 +122,12 @@ class Main extends React.Component {
                                     <td>Cálculo I</td>
                                     <td>4M45 6M45</td>
                                     <td>
-                                        <Link to='/qr-screen'>
-                                            <Button
-                                                variant='success'
-                                                type='buton'
-                                            > GERAR 
-                                            </Button>
-                                        </Link>
+                                        <Button
+                                            variant='success'
+                                            type='buton'
+                                            href='/qr-screen'
+                                        > GERAR 
+                                        </Button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -148,13 +144,12 @@ class Main extends React.Component {
                                     <td>Geometria Analítica e Álgebra Linear</td>
                                     <td>2T12</td>
                                     <td>
-                                        <Link to='/qr-screen'>
-                                            <Button
-                                                variant='success'
-                                                type='buton'
-                                            > GERAR 
-                                            </Button>
-                                        </Link>
+                                        <Button
+                                            variant='success'
+                                            type='buton'
+                                            href='/qr-screen'
+                                        > GERAR 
+                                        </Button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -171,13 +166,12 @@ class Main extends React.Component {
                                     <td>Cálculo I</td>
                                     <td>3T12 5T34</td>
                                     <td>
-                                        <Link to='/qr-screen'>
-                                            <Button
-                                                variant='success'
-                                                type='buton'
-                                            > GERAR 
-                                            </Button>
-                                        </Link>
+                                        <Button
+                                            variant='success'
+                                            type='buton'
+                                            href='/qr-screen'
+                                        > GERAR 
+                                        </Button>
                                     </td>
                                 </tr>
                             </tbody>

@@ -9,13 +9,15 @@ import QRScreen from './QRScreen';
 import RegisterClass from './RegisterClass';
 import EditClass from './EditClass';
 import RegisterUser from './RegisterUser';
-//*import CustomNavbar from './CustomNavbar';
+import CustomNavbar from './CustomNavbar';
 
 
 const BackgroundImage = {
     position: 'fixed',
-    backgroundSize: 'auto',
+    backgroundSize: 'cover',
     backgroundPosition: 'center',
+    minHeigth: '100vh',
+    minWidth: '100vw',
     opacity: '0.6',
     zIndex: '-1'
 };
@@ -26,11 +28,12 @@ class App extends React.Component {
     return (
 
       <React.Fragment>
-        {/*<CustomNavbar />*/}
         <img src={BackgroundImagePath} alt="/" style={BackgroundImage} />
+
         <Router>
+          <CustomNavbar/>
           <Switch>
-            <Route exact path="/" component={ Home } />
+            <Route exact={true} path="/" component={ Home } />
             <Route path="/home" component={ Home } />
             <Route path="/main" component={ Main } />
             <Route path="/qr-screen" component={ QRScreen } />
@@ -40,6 +43,7 @@ class App extends React.Component {
             <Route path="*" component= { NoMatch }/>
           </Switch>
         </Router>
+        
       </React.Fragment>
     );
   }

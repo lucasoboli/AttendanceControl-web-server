@@ -1,14 +1,3 @@
-.m-navbar {
-    width: 100%;
-    height: 4rem;
-    padding-top: 1rem;
-    position: fixed;
-    background-color: #14a5ff;
-    text-align: center;
-    color: white;
-    font-weight: 800;
-    font-size: 16pt;
-}
 
 .m-primary-container {
     background-color: snow;

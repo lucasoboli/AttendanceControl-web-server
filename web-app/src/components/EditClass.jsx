@@ -3,7 +3,6 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import Link from 'react-router-dom/Link';
 import Modal from 'react-bootstrap/Modal';
 import './EditClass.css';
 
@@ -53,10 +52,12 @@ class EditClass extends React.Component {
             });
     }
 
-    onClose = event => {
-        event.preventDefault();
+    showModal = () => {
+        this.setState({ show: true });
+    }
 
-        // Fechar modal
+    hideModal = () => {
+        this.setState({ show: false });
     }
 
     
@@ -73,8 +74,17 @@ class EditClass extends React.Component {
         return (
 
             <Container>
+                <br></br><br></br><br></br><br></br>
 
-                <Modal size='lg' show='false' showModal='false'>
+                <Button variant='warning' onClick={this.showModal}> testar </Button>
+                <Button variant='outline-warning' href='/main'> voltar </Button>
+
+                <Modal
+                    size='lg'
+                    show={this.state.show}
+                    onHide={this.hideModal}
+                    handleClose={this.hideModal}
+                >
 
                     <Modal.Header closeButton>
                         <Modal.Title id='contained-modal-title-vcenter'>
@@ -155,14 +165,12 @@ class EditClass extends React.Component {
 
                     <Modal.Footer>
                         <div>
-                            <Link to='/main'>
                                 <Button
                                     variant='outline-secondary'
                                     type='reset'
-                                    onClick={this.onClose}
+                                    onClick={this.hideModal}
                                 > CANCELAR 
                                 </Button>
-                            </Link>
                         </div>
                     </Modal.Footer>
 

@@ -7,6 +7,15 @@ import Form from 'react-bootstrap/Form';
 import './RegisterClass.css';
 
 
+const initialErrorState = {
+    subjectCodeError: "",
+    subjectNameError: "",
+    classCodeError: "",
+    timeCodeError: "",
+    studentsFileError: ""
+};
+
+
 class RegisterClass extends React.Component {
 
     constructor(props) {
@@ -18,7 +27,12 @@ class RegisterClass extends React.Component {
             classCode: "",
             timeCode: "",
             time2Code: "",
-            studentsFile: ""
+            studentsFile: "",
+            subjectCodeError: "",
+            subjectNameError: "",
+            classCodeError: "",
+            timeCodeError: "",
+            studentsFileError: ""
         };
     }
 
@@ -28,7 +42,7 @@ class RegisterClass extends React.Component {
         });
     }
 
-    onSubmit = event => {
+    onSubmit = event => { // ToDo: Só enviar as infos do formulário se ele for válido
         event.preventDefault();
 
         const {
@@ -53,12 +67,66 @@ class RegisterClass extends React.Component {
             }).catch((error) => {
                 console.log(error)
             });
+
+        const isValid = this.validate();
+        if (isValid) {
+            // Limpando erros do Form
+            this.setState(initialErrorState);
+        }
     }
 
-    onClose = event => {
-        event.preventDefault();
+    validate = () => {
+        let subjectCodeError = '';
+        let subjectNameError = '';
+        let classCodeError = '';
+        let timeCodeError = '';
+        let studentsFileError = '';
 
-        // Fechar modal
+        if (this.state.subjectCode.length === 0) {
+            subjectCodeError = '* O campo "Código" é obrigatório';
+        }
+
+        if (this.state.subjectName.length === 0) {
+            subjectNameError = '* O campo "Nome da Disciplina" é obrigatório';
+        }
+
+        if (this.state.classCode.length === 0) {
+            classCodeError = '* O campo "Turma" é obrigatório';
+        }
+
+        if (this.state.timeCode.length === 0) {
+            timeCodeError = '* O campo "Horário" é obrigatório';
+        }
+
+        else if (this.state.timeCode.length < 4) {
+            timeCodeError = '* Verifique o código do horário digitado';
+        }
+
+        if (this.state.studentsFile.length === 0) {
+            studentsFileError = '* É obrigatório selecionar um arquivo .extension'; // ToDo: mudar .extension
+        }
+
+        else if (!this.state.studentsFile.includes('.extension')) { // ToDo: mudar .extension's
+           studentsFileError = '* A extensão do arquivo deve ser .extension';
+        }
+
+        if (subjectCodeError || subjectNameError || classCodeError ||
+            timeCodeError || studentsFileError) {
+                this.setState({ subjectCodeError, subjectNameError, classCodeError,
+                    timeCodeError, studentsFileError});
+            
+            return false;
+        }
+
+        return true;
+    }
+
+    showModal = () => {
+        this.setState({ show: true });
+    }
+
+    hideModal = () => {
+        this.setState({ show: false });
     }
 
 
@@ -77,10 +145,17 @@ class RegisterClass extends React.Component {
         return (
 
             <Container>
+                <br></br><br></br><br></br><br></br>
 
-                <Button variant='warning' > testar </Button>
+                <Button variant='warning' onClick={this.showModal}> testar </Button>
+                <Button variant='outline-warning' href='/main'> voltar </Button>
 
-                <Modal size='lg' show='false' showModal='false'>
+                <Modal
+                    size='lg'
+                    show={this.state.show}
+                    onHide={this.hideModal}
+                    handleClose={this.hideModal}
+                >
 
                     <Modal.Header closeButton>
                         <Modal.Title id='contained-modal-title-vcenter'>
@@ -94,6 +169,7 @@ class RegisterClass extends React.Component {
                                 <div className='rc-form-subject-code'>
                                     <Form.Label htmlFor='subject-code'> Código </Form.Label>
                                     <Form.Control
+                                        required
                                         placeholder='Ex: ECO101'
                                         aria-label='Cod-Disciplina'
                                         name='subjectCode'
@@ -101,9 +177,11 @@ class RegisterClass extends React.Component {
                                         onChange={this.handleChange}
                                     />
                                 </div>
+
                                 <div className='rc-form-subject-name'>
                                     <Form.Label htmlFor='subject-name'> Nome da Disciplina </Form.Label>
                                     <Form.Control
+                                        required
                                         placeholder='Ex: Introdução à Engenharia de Computação'
                                         aria-label='Nome'
                                         name='subjectName'
@@ -117,6 +195,7 @@ class RegisterClass extends React.Component {
                                 <div className='rc-form-class-code'>
                                     <Form.Label htmlFor='class-code'> Turma </Form.Label>
                                     <Form.Control
+                                        required
                                         placeholder='Ex: T01'
                                         aria-label='Cod-Turma'
                                         name='classCode'
@@ -124,9 +203,11 @@ class RegisterClass extends React.Component {
                                         onChange={this.handleChange}
                                     />
                                 </div>
+
                                 <div className='rc-form-time-code'>
                                     <Form.Label htmlFor='time-code'> Horário </Form.Label>
                                     <Form.Control
+                                        required
                                         placeholder='Ex: 2M123'
                                         aria-label='Cod-Horario'
                                         name='timeCode'
@@ -134,6 +215,7 @@ class RegisterClass extends React.Component {
                                         onChange={this.handleChange}
                                     />
                                 </div>
+
                                 <div className='rc-form-time2-code'>
                                     <Form.Label htmlFor='2-time-code'> 2º Horário </Form.Label>
                                     <Form.Control
@@ -144,6 +226,7 @@ class RegisterClass extends React.Component {
                                         onChange={this.handleChange}
                                     />
                                 </div>
+
                                 <div className='rc-form-time2-alert'>
                                     Se houver apenas 1 horário semanal para esta disciplina,
                                     deixe o campo "2º Horário" vazio.
@@ -154,12 +237,14 @@ class RegisterClass extends React.Component {
                                 <div className='rc-form-file-input'>
                                     <Form.Label htmlFor='students-file'> Arquivo com Nome e Matrícula dos Alunos </Form.Label>
                                     <Form.File
-                                        label='.extension'
                                         custom
+                                        required
+                                        label='.extension (é .pdf?)'
                                         name='studentsFile'
                                         value={studentsFile}
                                         onChange={this.handleChange}
-                                    />
+                                    >
+                                    </Form.File>
                                 </div>
                             </Form.Group>
 
@@ -174,12 +259,20 @@ class RegisterClass extends React.Component {
                         </Form>
                     </Modal.Body>
 
+                    <div className='rc-error-msg'>
+                        <div> {this.state.subjectCodeError} </div>
+                        <div> {this.state.subjectNameError} </div>
+                        <div> {this.state.classCodeError} </div>                    
+                        <div> {this.state.timeCodeError} </div>
+                        <div> {this.state.studentsFileError} </div>
+                    </div>
+
                     <Modal.Footer>
                         <div>
                             <Button
                                 variant='outline-secondary'
                                 type='reset'
-                                onClick={this.onClose}
+                                onClick={this.hideModal}
                             > CANCELAR 
                             </Button>
                         </div>

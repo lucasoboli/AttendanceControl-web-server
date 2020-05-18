@@ -5,18 +5,22 @@ import Modal from 'react-bootstrap/Modal';
 
 class QRScreen extends React.Component {
 
-    onClose = event => {
-        event.preventDefault();
-
-        // Fechar modal
+    hideModal = () => {
+        this.setState({ show: false });
     }
 
     
     render() {
         return (
             
-            <Modal size='lg' show='false' showModal='false'>
-                <Modal.Header>
+            <Modal
+                size='xl'
+                show={true}
+                onHide={this.hideModal}
+                handleClose={this.hideModal}
+            >
+                
+                <Modal.Header closeButton>
                     <Modal.Title> Cod_Disciplina - Cod_Turma </Modal.Title>
                 </Modal.Header>
 
@@ -26,9 +30,10 @@ class QRScreen extends React.Component {
 
                 <Modal.Footer style={{textAlign:'center'}}>
                     <Button
-                        variant='secondary'
+                        variant='outline-success'
                         type='button'
-                        onClick={this.onClose}
+                        onClick={this.hideModal}
+                        href='/main'
                     > ENCERRAR
                     </Button>
                 </Modal.Footer>

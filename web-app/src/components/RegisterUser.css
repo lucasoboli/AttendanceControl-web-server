@@ -1,4 +1,9 @@
 
+
+.ru-modal-dialog {
+    margin-top: 4rem;
+}
+
 .ru-modal-body {
     justify-content: center;
     padding-left: 6%;
@@ -7,4 +12,10 @@
 
 .ru-register-button-position {
     text-align: center;
+}
+
+.ru-error-msg {
+    color: crimson;
+    font-size: 12px;
+    margin-left: 10px;
 }

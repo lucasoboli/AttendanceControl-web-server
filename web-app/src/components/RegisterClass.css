@@ -50,3 +50,10 @@
 .rc-button-position {
     text-align: center;
 }
+
+.rc-error-msg {
+    color: crimson;
+    font-size: 12px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
