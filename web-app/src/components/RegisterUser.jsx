@@ -1,11 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import './RegisterUser.css';
 
 
@@ -17,8 +17,8 @@ const initialErrorState = {
 };
 
 
-class RegisterUser extends React.Component {
-
+class RegisterUser extends React.Component { // ToDo: código de verificação p/ email do professor antes de autorizar novo usuário
+                                             // ToDo: criar tela para digitar código de verificação
     constructor(props) {
         super(props);
         
@@ -43,6 +43,7 @@ class RegisterUser extends React.Component {
 
     onSubmit = event => { // ToDo: Só enviar as infos do formulário se ele for válido
         event.preventDefault();
+        
         const {
             email,
             userName,
@@ -67,7 +68,7 @@ class RegisterUser extends React.Component {
         if (isValid) {
             // Limpando erros do Form
             this.setState(initialErrorState);
-            //Limpando o Form
+            // Limpando o Form
             this.setState({ email: '', userName: '', userSurname: '',
             password: '', password2: '' });
         }
@@ -81,10 +82,6 @@ class RegisterUser extends React.Component {
         
         if (this.state.email.length === 0) {
             emailError = '* Este campo é obrigatório';
-        }
-
-        if (this.state.email.includes('@')) {
-            emailError = '* É obrigatório ter um email @unifei.edu';
         }
 
         if (this.state.userName.length === 0 || this.state.userSurname.length === 0) {

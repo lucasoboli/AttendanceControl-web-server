@@ -1,7 +1,21 @@
 
-
 .ru-modal-dialog {
-    margin-top: 4rem;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    box-shadow: 0 0 40px 10px rgba(0, 0, 0, 0.9);
+}
+
+.ru-modal-header-goback-button {
+    background: none !important;
+    justify-content: center;
+    border-radius: 6px;
+    color: rgb(117, 117, 117);
+    cursor: pointer;
+}
+
+.ru-modal-header-goback-button:hover {
+    transition-duration: 1.5s;
+    color: blue;
 }
 
 .ru-modal-body {
@@ -11,6 +25,24 @@
 }
 
 .ru-register-button-position {
+    text-align: center;
+}
+
+.ru-accordion {
+    margin-top: 10vh;
+}
+
+.ru-attention-msg {
+    color: crimson;
+}
+
+.ru-change-password-button-position {
+    margin-top: 2vh;
+    text-align: center;
+}
+
+.ru-delete-account-button-position {
+    margin-top: 2vh;
     text-align: center;
 }
 

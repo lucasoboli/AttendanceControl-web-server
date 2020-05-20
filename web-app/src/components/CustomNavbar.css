@@ -1,37 +1,65 @@
 
-.cn-navbar {
+.cn-navbar-container {
     width: 100%;
     height: 3rem;
     position: fixed;
     background-color: #14a5ff;
     display: flex;
     justify-content: space-between;
-    box-shadow: 0 8px 12px 1px #707070;
+    box-shadow: 0 6px 6px #5a5a5a;
     z-index: 10;
 }
 
-.cn-title {
+.cn-title-container {
     color: white;
     font-weight: 600;
     font-size: 16pt;
     text-align: center;
     margin-top: 8px;
-    margin-left: 4%;
+    margin-left: 4vw;
+}
+
+.cn-title {
+    height: 100%;
+    width: 100%;
+}
+
+.cn-buttons-container {
+    margin-right: 4vw;
+    margin-top: 8px;
+    display: inline-flex;
 }
 
 .cn-logout-button {
     width: 4rem;
     height: 2rem;
-    border-radius: 6px;
-    transition-duration: 0.5s;
-    border: 2px solid white;
+    border-radius: 4px;
+    transition-duration: 1.5s;
+    border: 1px solid white;
     background-color: #14a5ff;
     color: white;
 }
 
-.cn-logout-button:hover {
+.cn-logout-button:hover,
+.cn-logout-button:focus {
     border: 2px solid #cccccc;
     background-color: white;
     color: #148dff;
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    /*box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);*/
+    box-shadow: inset -3.5em 0 0 0 white, inset 3.5em 0 0 0 white;
+}
+
+.cn-edit-user-button {
+    height: 2rem;
+    display: block;
+    border-radius: 4px;
+    transition-duration: 1s;
+    color: white;
+}
+
+.cn-edit-user-button:hover,
+.cn-edit-user-button:focus {
+    border: 2px solid #cccccc;
+    background-color: white;
+    color: #14a5ff;
 }

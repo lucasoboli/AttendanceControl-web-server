@@ -6,10 +6,26 @@
     min-width: 300px;
 }
 
+.h-modal-dialog {
+    margin-top: 6vh;
+    margin-bottom: 10vh;
+    box-shadow: 0 0 40px 10px rgba(0, 0, 0, 0.9);
+}
+
+.h-modal-header {
+    display: flex;
+    flex-direction: column;
+}
+
 .h-modal-body {
     justify-content: center;
     padding-left: 12%;
     padding-right: 12%;
+}
+
+.h-modal-body-title {
+    margin-bottom: 3vh;
+    text-align: center;
 }
 
 .h-error-msg {
