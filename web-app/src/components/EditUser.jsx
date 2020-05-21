@@ -18,6 +18,7 @@ class EditUser extends React.Component {
 
         this.state = {
             // Para campos de Update
+            userEmailUpdate: "",
             userNameUpdate: "",
             userSurnameUpdate: "",
             passwordUpdate: "",
@@ -44,11 +45,27 @@ class EditUser extends React.Component {
         });
     }
 
-    // ToDo: Necessário comparar senha de confirmação com senha no banco; se não baterem, o form é inválido
-    onSubmitUpdate = event => { // ToDo: Só enviar as infos do formulário se ele for válido
+    
+    componentDidMount = () => {
+        // Preenche com os dados autais do professor
+        axios.get('http://localhost:3333/professor/6')
+            .then((res) => {
+                console.log(res.data)
+                this.setState({
+                    userEmailUpdate: res.data.email,
+                    userNameUpdate: res.data.name.split(' ')[0],
+                    userSurnameUpdate: res.data.name.split(' ')[1]
+                })
+            }).catch((error) => {
+                console.log(error)
+            });
+    }
+
+    onSubmitUpdate = event => {
         event.preventDefault();
 
         const {
+            userEmailUpdate,
             userNameUpdate,
             userSurnameUpdate,
             passwordUpdate,
@@ -56,16 +73,32 @@ class EditUser extends React.Component {
 
         const data = {
             name: userNameUpdate + ' ' + userSurnameUpdate,
-            //email: email, ToDo: alterar email para email do atual login
+            email: userEmailUpdate,
             password: passwordUpdate
         };
 
-        axios.post('http://localhost:3333/professor/', data) //ToDo: Verificar rota
+        const userObject = {
+            email: userEmailUpdate,
+            password: passwordUpdate
+        };
+
+        // Verifica se a senha digitada está correta
+        axios.post('http://localhost:3333/login', userObject)
             .then((res) => {
-                console.log(res.data)
+                // Altera os dados do professor (nome)
+                axios.put('http://localhost:3333/professor/6', data)
+                    .then((res) => {
+                        document.location.reload()
+                        // Acho que pode colocar um modal de editado, ou voltar pra página principal [Lucas]
+                    }).catch((error) => {
+                        console.log(error)
+                    });
+                    
             }).catch((error) => {
-                console.log(error)
+                // Aparecer que a senha está errada [Lucas]
             });
+
+
 
         const isValid = this.validateUpdate();
         if (isValid) {
@@ -99,15 +132,39 @@ class EditUser extends React.Component {
         return true;
     }
 
-    onSubmitPasswordRenew = event => { // ToDo: Conectar c/ Back-end p/ troca de senha
+    onSubmitPasswordRenew = event => {
         event.preventDefault();
 
-        /*const {
-            actualPasswordRenew,
-            newPasswordRenew,
-            newPassword2Renew
-        } = this.state; */
+        const newPassword = { password: this.state.newPasswordRenew }
 
+        const userObject = {
+            email: this.state.userEmailUpdate,
+            password: this.state.actualPasswordRenew
+        };
+
+        // Verifica se a senha atual está correta
+        axios.post('http://localhost:3333/login', userObject)
+        .then((res) => {
+
+            // Encripta a nova senha digitada
+            axios.put('http://localhost:3333/encrypt', newPassword)
+                .then((res) => {
+
+                    // Altera a senha
+                    axios.put('/professor/6/password', { password: res.data.password })
+                    .then((res) => {
+                        document.location.reload()
+                        // Acho que pode colocar um modal de senha editada, ou voltar pra página principal [Lucas]
+                    }).catch((error) => {
+                        console.log(error)
+                    });
+                }).catch((error) => {
+                    console.log(error)
+                });
+
+        }).catch((error) => {
+            // Aparecer que a senha atual está errada [Lucas]
+        });
 
         const isValid = this.validatePasswordRenew();
         if (isValid) {
@@ -195,6 +252,7 @@ class EditUser extends React.Component {
     render() {
 
         const {
+            userEmailUpdate,
             userNameUpdate,
             userSurnameUpdate,
             passwordUpdate,
@@ -240,7 +298,7 @@ class EditUser extends React.Component {
                                         <FormControl
                                             disabled
                                             contentEditable='false'
-                                            placeholder='email_professor' // ToDo: Puxar valor do 'value'
+                                            placeholder={userEmailUpdate.split('@')[0]} // ToDo: Puxar valor do 'value'
                                             aria-label='Email'
                                             name='email'
                                         // ToDo: Alterar 'value' para email do atual login

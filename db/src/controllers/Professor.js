@@ -44,10 +44,9 @@ module.exports = {
 
         prof.name = req.body.name;
         prof.email = req.body.email;
-        prof.password = req.body.password;
 
 
-        if (prof.name === "" || prof.email === "" || prof.password === "")
+        if (prof.name === "" || prof.email === "")
             return res.status(400).json({message: "Os dados não podem estar em branco."});
 
         else{
@@ -60,6 +59,29 @@ module.exports = {
                 return res.status(400).json({message: "Erro ao editar os dados do professor."});
             }
       }
+    },
+
+    // Altera Senha
+    async changePassword(req, res){
+
+        const { id } = req.params;
+        const prof = await Professor.findByPk(id);
+
+        prof.password = req.body.password;
+
+        if (prof.password === "")
+            return res.status(400).json({message: "A senha não pode estar em branco."});
+
+        else{
+            try{
+                await prof.save();
+                return res.status(200)
+                    .json(prof);
+
+            }catch(error){
+                return res.status(400).json({message: "Erro ao alterar a senha do professor."});
+            }
+        }
     },
 
     // Delete um professor

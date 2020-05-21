@@ -53,13 +53,13 @@ class RegisterUser extends React.Component { // ToDo: código de verificação p
 
         const data = {
             name: userName + ' ' + userSurname,
-            email: email,
+            email: email + '@unifei.edu.br',
             password: password
         };
 
         axios.post('http://localhost:3333/professor/', data)
             .then((res) => {
-                console.log(res.data)
+                // Aparacer um modal de "Cadastrado com sucesso"
             }).catch((error) => {
                 console.log(error)
             });

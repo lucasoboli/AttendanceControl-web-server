@@ -1,4 +1,5 @@
 const passport = require("passport");
+const bcrypt = require('bcrypt');
 const { ExtractJwt, Strategy } = require("passport-jwt");
 const Professor = require('../models/Professor');
 const cfg = require('../config/database');
@@ -66,4 +67,14 @@ module.exports = {
             return res.status(401).json({message: "error"});
         }
     },     
+
+    async encrypt(req, res){
+        try{
+            const salt = bcrypt.genSaltSync();
+            encryptPassword = { password: bcrypt.hashSync(req.body.password, salt) };
+            return res.status(200).json(encryptPassword);
+        }catch(err){
+            return res.status(400).json({message: "error"});
+        }
+    },
 };

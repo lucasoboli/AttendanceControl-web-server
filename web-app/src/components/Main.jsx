@@ -41,6 +41,7 @@ class Main extends React.Component {
             timeCodeRegisterError: "",
             studentsFileRegisterError: "",
 
+            subjectIdEdit: "",
             subjectCodeEdit: "",
             subjectNameEdit: "",
             classCodeEdit: "",
@@ -55,8 +56,8 @@ class Main extends React.Component {
         });
     }
 
-    onSubmitRegister = event => { // ToDo: Só enviar as infos do formulário se ele for válido
-        event.preventDefault();   // ToDo: Form de Edit pega infos da linha (dinâmico)
+    onSubmitRegister = event => {
+        event.preventDefault();
 
         const {
             subjectCodeRegister,
@@ -71,12 +72,13 @@ class Main extends React.Component {
             code_subject: subjectCodeRegister,
             name: subjectNameRegister,
             code_class: classCodeRegister,
-            code_time: timeCodeRegister + '_' + time2CodeRegister
+            code_time: timeCodeRegister + ' ' + time2CodeRegister
         };
 
         axios.post('http://localhost:3333/professor/3/subject/', data)
             .then((res) => {
-                console.log(res.data)
+                this.setState({showRegister: false})
+                document.location.reload()
             }).catch((error) => {
                 console.log(error)
             });
@@ -86,6 +88,7 @@ class Main extends React.Component {
             // Limpando erros do Form
             this.setState(initialRegisterErrorState);
         }
+
     }
 
     validate = () => {
@@ -115,13 +118,13 @@ class Main extends React.Component {
             timeCodeRegisterError = '* Verifique o código do horário digitado';
         }
 
-        if (this.state.studentsFileRegister.length === 0) {
-            studentsFileRegisterError = '* É obrigatório selecionar um arquivo .extension'; // ToDo: mudar .extension
-        }
+        // if (this.state.studentsFileRegister.length === 0) {
+        //     studentsFileRegisterError = '* É obrigatório selecionar um arquivo .extension'; // ToDo: mudar .extension
+        // }
 
-        else if (!this.state.studentsFileRegister.includes('.extension')) { // ToDo: mudar .extension's
-           studentsFileRegisterError = '* A extensão do arquivo deve ser .extension';
-        }
+        // else if (!this.state.studentsFileRegister.includes('.extension')) { // ToDo: mudar .extension's
+        //    studentsFileRegisterError = '* A extensão do arquivo deve ser .extension';
+        // }
 
         if (subjectCodeRegisterError || subjectNameRegisterError || classCodeRegisterError ||
             timeCodeRegisterError || studentsFileRegisterError) {
@@ -137,6 +140,7 @@ class Main extends React.Component {
     onSubmitEdit = event => {
         event.preventDefault();
         const {
+            subjectIdEdit,
             subjectCodeEdit,
             subjectNameEdit,
             classCodeEdit,
@@ -148,14 +152,16 @@ class Main extends React.Component {
             code_subject: subjectCodeEdit,
             name: subjectNameEdit,
             code_class: classCodeEdit,
-            code_time: timeCodeEdit + '_' + time2CodeEdit
+            code_time: timeCodeEdit + ' ' + time2CodeEdit
         };
 
-        axios.put('http://localhost:3333/subject/4', data) // ToDo: Criar mensagem de sucesso/erro p/ register e p/ edit [Front-end]
+        axios.put(`http://localhost:3333/subject/${subjectIdEdit}`, data)
             .then((res) => {
-                console.log(res.data)
+                this.setState({ showEdit: false, subjectIdEdit: "" })
+                document.location.reload()
+                // Se quiser colocar uma mesagem de sucesso aqui também [Lucas]
             }).catch((error) => {
-                console.log(error)
+                // ToDo: Criar mensagem de erro p/ register e p/ edit [Lucas]
             });
     }
 
@@ -167,8 +173,21 @@ class Main extends React.Component {
         this.setState({ showRegister: false });
     }
 
-    showEditModal = () => {
-        this.setState({ showEdit: true });
+    showEditModal = (subjectId) => {
+        this.setState({ showEdit: true, subjectIdEdit: subjectId});
+
+        axios.get(`http://localhost:3333/subject/${subjectId}`)
+            .then((res) => {
+                this.setState({
+                    subjectCodeEdit: res.data.code_subject,
+                    subjectNameEdit: res.data.name,
+                    classCodeEdit: res.data.code_class,
+                    timeCodeEdit: res.data.code_time.split(' ')[0],
+                    time2CodeEdit: res.data.code_time.split(' ')[1]
+                })
+            }).catch((error) => {
+                console.log(error)
+            });
     }
 
     hideEditModal = () => {
@@ -203,6 +222,8 @@ class Main extends React.Component {
     render() {
         
         const {
+            subjects,
+
             subjectCodeRegister,
             subjectNameRegister,
             classCodeRegister,
@@ -258,110 +279,34 @@ class Main extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <button
-                                            className='m-edit-button'
-                                            type='button'
-                                            onClick={this.showEditModal}
-                                        >
-                                            <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z" />
-                                                <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clipRule="evenodd" />
-                                            </svg>
-                                        </button>
-                                    </td>
-                                    <td>MAT001</td>
-                                    <td>T01</td>
-                                    <td>Cálculo I</td>
-                                    <td>2M23 4M45</td>
-                                    <td>
-                                        <Button
-                                            variant='success'
-                                            type='buton'
-                                            onClick={this.showQRModal}
-                                        > GERAR 
-                                        </Button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button
-                                            className='m-edit-button'
-                                            type='button'
-                                            onClick={this.showEditModal}
-                                        >
-                                            <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z" />
-                                                <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clipRule="evenodd" />
-                                            </svg>
-                                        </button>
-                                    </td>
-                                    <td>MAT001</td>
-                                    <td>T02</td>
-                                    <td>Cálculo I</td>
-                                    <td>4M45 6M45</td>
-                                    <td>
-                                        <Button
-                                            variant='success'
-                                            type='buton'
-                                            onClick={this.showQRModal}
-                                        > GERAR 
-                                        </Button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button
-                                            className='m-edit-button'
-                                            type='button'
-                                            onClick={this.showEditModal}
-                                        >
-                                            <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z" />
-                                                <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clipRule="evenodd" />
-                                            </svg>
-                                        </button>
-                                    </td>
-                                    <td>MAT011</td>
-                                    <td>T01</td>
-                                    <td>Geometria Analítica e Álgebra Linear</td>
-                                    <td>2T12</td>
-                                    <td>
-                                        <Button
-                                            variant='success'
-                                            type='buton'
-                                            onClick={this.showQRModal}
-                                        > GERAR 
-                                        </Button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button
-                                            className='m-edit-button'
-                                            type='button'
-                                            onClick={this.showEditModal}
-                                        >
-                                            <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z" />
-                                                <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clipRule="evenodd" />
-                                            </svg>
-                                        </button>
-                                    </td>
-                                    <td>MAT001</td>
-                                    <td>T03</td>
-                                    <td>Cálculo I</td>
-                                    <td>3T12 5T34</td>
-                                    <td>
-                                        <Button
-                                            variant='success'
-                                            type='buton'
-                                            onClick={this.showQRModal}
-                                        > GERAR 
-                                        </Button>
-                                    </td>
-                                </tr>
+                                {subjects.map( this.buildTable = (subject) => {
+                                    return <tr>
+                                        <td>
+                                            <button
+                                                className='m-edit-button'
+                                                type='button'
+                                                onClick={() => this.showEditModal(subject.id)}
+                                            >
+                                                <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z" />
+                                                    <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clipRule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        </td>
+                                        <td> {subject.code_subject} </td>
+                                        <td> {subject.code_class} </td>
+                                        <td> {subject.name} </td>
+                                        <td> {subject.code_time} </td>
+                                        <td>
+                                            <Button
+                                                variant='success'
+                                                type='buton'
+                                                onClick={this.showQRModal}
+                                            > GERAR 
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                })}
                             </tbody>
                         </Table>
                     </Container>

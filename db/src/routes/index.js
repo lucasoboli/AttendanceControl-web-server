@@ -2,13 +2,18 @@ const Professor = require('../controllers/Professor');
 const Subject = require('../controllers/Subject');
 const Student = require('../controllers/Student');
 
-const { token, auth } = require('../controllers/Authentication');
+const { token, auth, encrypt } = require('../controllers/Authentication');
 
 module.exports = (app) => {
 
     app
         .route('/login')
         .post(token)
+
+    
+    app
+        .route('/encrypt')
+        .put(encrypt)
 
     app
         .route('/professor')
@@ -21,6 +26,9 @@ module.exports = (app) => {
         .put(Professor.edit)
         .delete(Professor.delete)
 
+    app
+        .route('/professor/:id/password')
+        .put(Professor.changePassword)
     app
         .route('/subject')
         .get(Subject.index)
