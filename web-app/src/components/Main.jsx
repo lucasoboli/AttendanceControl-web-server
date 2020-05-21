@@ -46,7 +46,10 @@ class Main extends React.Component {
             subjectNameEdit: "",
             classCodeEdit: "",
             timeCodeEdit: "",
-            time2CodeEdit: ""
+            time2CodeEdit: "",
+
+            codeSubjectQR: "",
+            codeClassQR: ""
         };
     }
 
@@ -191,15 +194,15 @@ class Main extends React.Component {
     }
 
     hideEditModal = () => {
-        this.setState({ showEdit: false });
+        this.setState({ showEdit: false, subjectIdEdit: "" });
     }
 
-    showQRModal = () => {
-        this.setState({ showQR: true });
+    showQRModal = (codeSubjectQR, codeClassQR) => {
+        this.setState({ showQR: true, codeSubjectQR: codeSubjectQR, codeClassQR: codeClassQR });
     }
 
     hideQRModal = () => {
-        this.setState({ showQR: false });
+        this.setState({ showQR: false, codeSubjectQR: "", codeClassQR: "" });
     }
 
     removeClass = event => {
@@ -301,7 +304,7 @@ class Main extends React.Component {
                                             <Button
                                                 variant='success'
                                                 type='buton'
-                                                onClick={this.showQRModal}
+                                                onClick={() => this.showQRModal(subject.code_subject, subject.code_class)}
                                             > GERAR 
                                             </Button>
                                         </td>
@@ -549,7 +552,7 @@ class Main extends React.Component {
                 >
                 
                 <Modal.Header closeButton>
-                    <Modal.Title> Cod_Disciplina - Cod_Turma </Modal.Title>
+                    <Modal.Title>{this.state.codeSubjectQR + ' - ' + this.state.codeClassQR}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>

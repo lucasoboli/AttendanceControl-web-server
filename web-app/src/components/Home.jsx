@@ -39,7 +39,7 @@ class Home extends React.Component {
         event.preventDefault()
 
         const userObject = {
-            email: this.state.email,
+            email: this.state.email + '@unifei.edu.br',
             password: this.state.password,
         };
 
