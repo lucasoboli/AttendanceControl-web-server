@@ -28,6 +28,14 @@
     text-align: center;
 }
 
+.h-modal-body-login-button-div {
+    text-align: center;
+}
+
+.h-modal-footer {
+    justify-content: center;
+}
+
 .h-error-msg {
     color: crimson;
     font-size: 12px;

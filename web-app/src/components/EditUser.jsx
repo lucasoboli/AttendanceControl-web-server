@@ -4,9 +4,8 @@ import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import './RegisterUser.css';
 
@@ -89,13 +88,13 @@ class EditUser extends React.Component {
                 axios.put('http://localhost:3333/professor/6', data)
                     .then((res) => {
                         document.location.reload()
-                        // Acho que pode colocar um modal de editado, ou voltar pra página principal [Lucas]
+                        // ToDo: Acho que pode colocar um modal de editado, ou voltar pra página principal [Lucas]
                     }).catch((error) => {
                         console.log(error)
                     });
                     
             }).catch((error) => {
-                // Aparecer que a senha está errada [Lucas]
+                // ToDo: Aparecer que a senha está errada [Lucas]
             });
 
 
@@ -154,7 +153,7 @@ class EditUser extends React.Component {
                     axios.put('/professor/6/password', { password: res.data.password })
                     .then((res) => {
                         document.location.reload()
-                        // Acho que pode colocar um modal de senha editada, ou voltar pra página principal [Lucas]
+                        // ToDo: Acho que pode colocar um modal de senha editada, ou voltar pra página principal [Lucas]
                     }).catch((error) => {
                         console.log(error)
                     });
@@ -163,7 +162,7 @@ class EditUser extends React.Component {
                 });
 
         }).catch((error) => {
-            // Aparecer que a senha atual está errada [Lucas]
+            // ToDo: Aparecer que a senha atual está errada [Lucas]
         });
 
         const isValid = this.validatePasswordRenew();
@@ -281,7 +280,7 @@ class EditUser extends React.Component {
                                 title='Cancelar e voltar para a página principal'
                             >
                                 <a href='/main' style={{color:'inherit'}}>
-                                    <svg className="bi bi-box-arrow-left" width="2.5em" height="2.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <svg className="bi bi-box-arrow-left" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fillRule="evenodd" d="M4.354 11.354a.5.5 0 000-.708L1.707 8l2.647-2.646a.5.5 0 10-.708-.708l-3 3a.5.5 0 000 .708l3 3a.5.5 0 00.708 0z" clipRule="evenodd"/>
                                         <path fillRule="evenodd" d="M11.5 8a.5.5 0 00-.5-.5H2a.5.5 0 000 1h9a.5.5 0 00.5-.5z" clipRule="evenodd"/>
                                         <path fillRule="evenodd" d="M14 13.5a1.5 1.5 0 001.5-1.5V4A1.5 1.5 0 0014 2.5H7A1.5 1.5 0 005.5 4v1.5a.5.5 0 001 0V4a.5.5 0 01.5-.5h7a.5.5 0 01.5.5v8a.5.5 0 01-.5.5H7a.5.5 0 01-.5-.5v-1.5a.5.5 0 00-1 0V12A1.5 1.5 0 007 13.5h7z" clipRule="evenodd"/>
@@ -295,7 +294,7 @@ class EditUser extends React.Component {
                                 <Form.Group>
                                     <Form.Label> Email Institucional </Form.Label>
                                     <InputGroup>
-                                        <FormControl
+                                        <Form.Control
                                             disabled
                                             contentEditable='false'
                                             placeholder={userEmailUpdate.split('@')[0]} // ToDo: Puxar valor do 'value'
@@ -304,7 +303,7 @@ class EditUser extends React.Component {
                                         // ToDo: Alterar 'value' para email do atual login
                                         />
                                         <InputGroup.Append>
-                                            <InputGroup.Text id='basic-addon2'>@unifei.edu.br</InputGroup.Text>
+                                            <InputGroup.Text id='basic-addon2'> @unifei.edu.br </InputGroup.Text>
                                         </InputGroup.Append>
                                     </InputGroup>
                                 </Form.Group>
@@ -312,7 +311,7 @@ class EditUser extends React.Component {
 
                                 <Form.Label htmlFor='name'> Nome Completo </Form.Label>
                                 <InputGroup className='mb-3'>
-                                    <FormControl
+                                    <Form.Control
                                         required
                                         placeholder='Nome'
                                         aria-label='Nome'
@@ -320,7 +319,7 @@ class EditUser extends React.Component {
                                         value={userNameUpdate}
                                         onChange={this.handleChange}
                                     />
-                                    <FormControl
+                                    <Form.Control
                                         required
                                         placeholder='Sobrenome'
                                         aria-label='Sobrenome'
@@ -333,7 +332,7 @@ class EditUser extends React.Component {
 
                                 <Form.Label> Confirme sua Senha </Form.Label>
                                 <InputGroup className='mb-3'>
-                                    <FormControl
+                                    <Form.Control
                                         required
                                         type='password'
                                         placeholder='Senha'
@@ -344,7 +343,7 @@ class EditUser extends React.Component {
                                 </InputGroup>
                                 <div className='ru-error-msg'> {this.state.passwordUpdateError} </div>
 
-                                <div className='ru-register-button-position'>
+                                <div className='ru-save-button-position'>
                                     <Button
                                         variant='primary'
                                         type='submit'
@@ -359,13 +358,13 @@ class EditUser extends React.Component {
                                     <Card.Header>
                                         <Accordion.Toggle
                                             as={Button}
-                                            variant="link"
-                                            eventKey="0"
+                                            variant='link'
+                                            eventKey='0'
                                         > Alterar Senha
                                         </Accordion.Toggle>
                                     </Card.Header>
 
-                                    <Accordion.Collapse eventKey="0">
+                                    <Accordion.Collapse eventKey='0'>
                                         <Card.Body>
                                             <Form>
                                                 <Form.Group>
@@ -424,16 +423,67 @@ class EditUser extends React.Component {
                                     <Card.Header>
                                         <Accordion.Toggle
                                             as={Button}
-                                            variant="link"
-                                            eventKey="1"
-                                        > Deletar Conta
-                                            </Accordion.Toggle>
+                                            variant='link'
+                                            eventKey='1'
+                                        > Esqueci Minha Senha
+                                        </Accordion.Toggle>
                                     </Card.Header>
 
-                                    <Accordion.Collapse eventKey="1">
+                                    <Accordion.Collapse eventKey='1'>
+                                        <Card.Body>
+                                            <Form>
+                                                <h5> Recuperação de Senha </h5>
+                                                <Form.Text> Caso você possua um cadastro na plataforma, 
+                                                    um email com um link para reset de senha será enviado
+                                                    para o seu email cadastrado.
+                                                </Form.Text>
+                                                <Form.Text> Digite seu email cadastrado: </Form.Text>
+
+                                                <InputGroup className='ru-recover-password-input-group'>
+                                                    <Form.Control
+                                                        required
+                                                        type='text'
+                                                        placeholder='Email'
+                                                        onChange={this.handleChange}
+                                                    />
+                                                    {/* ToDo: atributos name e value + 
+                                                        configuração de variáveis + 
+                                                        validação do form + 
+                                                        setar parâmetro onClick do botão 'Enviar' +
+                                                        função onSubmit */}
+
+                                                    <InputGroup.Append>
+                                                        <InputGroup.Text id='basic-addon2'> @unifei.edu.br </InputGroup.Text>
+                                                    </InputGroup.Append>
+                                                </InputGroup>
+                                                        
+                                                <div className='ru-recover-password-button-position'>
+                                                    <Button
+                                                        variant='primary'
+                                                        type='submit'
+                                                        onClick
+                                                    > ENVIAR
+                                                    </Button>
+                                                </div>
+                                            </Form>
+                                        </Card.Body>
+                                    </Accordion.Collapse>
+                                </Card>
+
+                                <Card>
+                                    <Card.Header>
+                                        <Accordion.Toggle
+                                            as={Button}
+                                            variant='link'
+                                            eventKey='2'
+                                        > Deletar Conta
+                                        </Accordion.Toggle>
+                                    </Card.Header>
+
+                                    <Accordion.Collapse eventKey='2'>
                                         <Card.Body>
                                             <h5 className='ru-attention-msg'> Atenção </h5>
-                                            <p> Essa ação é permanente. Todos os dados serão excluídos. </p>
+                                            <p> Esta ação é permanente. Todos os seus dados serão excluídos. </p>
 
                                             <div className='ru-delete-account-button-position'>
                                                 <Button
@@ -469,14 +519,11 @@ class EditUser extends React.Component {
                     onHide={this.hideDeleteAccountModal}
                     handleClose={this.hideDeleteAccountModal}
                 >
-                    <Modal.Header closeButton>
-                        Confirme sua senha para continuar
-                    </Modal.Header>
 
                     <Modal.Body>
                         <Form>
+                            <Form.Label> Confirme sua senha para continuar </Form.Label>
                             <Form.Group>
-                                <Form.Label> Senha </Form.Label>
                                 <Form.Control
                                     required
                                     type='password'

@@ -6,6 +6,7 @@ import EditUser from './EditUser';
 import Home from './Home';
 import Main from './Main';
 import NoMatch from './NoMatch';
+import PasswordRecover from './PasswordRecover';
 import RegisterUser from './RegisterUser';
 
 
@@ -23,6 +24,7 @@ class App extends React.Component {
             <Route path="/main" component={ Main } />
             <Route path="/edit-user" component={ EditUser } />
             <Route path="/register-user" component={ RegisterUser } />
+            <Route path="/password-recover" component={ PasswordRecover } />
             <Route path="*" component= { NoMatch }/>
           </Switch>
         </Router>

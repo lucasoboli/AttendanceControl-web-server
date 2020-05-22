@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import './Home.css';
 
@@ -108,8 +107,8 @@ class Home extends React.Component {
                         
                         <Modal.Header className='h-modal-header'>
                             <Modal.Title>Bem vindo, professor </Modal.Title>
-                            <p> Não possue uma conta?
-                                <a href='/register-user'> Criar conta </a>
+                            <p> Não possui uma conta?
+                                <a href='/register-user'> Cadastre-se </a>
                             </p>
                         </Modal.Header>
 
@@ -118,7 +117,7 @@ class Home extends React.Component {
                             <Form>
                                 <Form.Group controlId='formBasicEmail'>
                                     <InputGroup>
-                                        <FormControl
+                                        <Form.Control
                                             placeholder='Email'
                                             aria-label='Email'
                                             aria-describedby='basic-addon2'
@@ -127,7 +126,7 @@ class Home extends React.Component {
                                             onChange={this.handleChange}
                                         />
                                         <InputGroup.Append>
-                                            <InputGroup.Text id='basic-addon2'>@unifei.edu.br</InputGroup.Text>
+                                            <InputGroup.Text id='basic-addon2'> @unifei.edu.br </InputGroup.Text>
                                         </InputGroup.Append>
                                     </InputGroup>
                                     <div className='h-error-msg'> {this.state.emailError} </div>
@@ -142,9 +141,13 @@ class Home extends React.Component {
                                         onChange={this.handleChange}
                                     />
                                     <div className='h-error-msg'> {this.state.passwordError} </div>
+                                    
+                                    <Form.Text>
+                                        <a href='/password-recover'> Esqueceu sua senha? </a>
+                                    </Form.Text>
                                 </Form.Group>
 
-                                <div style={{textAlign:'center'}}>
+                                <div className='h-modal-body-login-button-div'>
                                     <Button
                                         variant='primary'
                                         type='submit'
@@ -156,7 +159,7 @@ class Home extends React.Component {
                             </Form>
                         </Modal.Body>
 
-                        <Modal.Footer style={{justifyContent:'center'}}>
+                        <Modal.Footer className='h-modal-footer'>
                             <Button
                                 variant='outline-primary'
                                 type='button'
@@ -169,7 +172,7 @@ class Home extends React.Component {
 
                 </Container>
             </React.Fragment>
-        )
+        );
     }
 }
 

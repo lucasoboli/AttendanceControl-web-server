@@ -50,8 +50,11 @@
 }
 
 .cn-edit-user-button {
+    text-align: center;
+    min-width: 3em;
     height: 2rem;
     display: block;
+    border: 1px solid white;
     border-radius: 4px;
     transition-duration: 1s;
     color: white;

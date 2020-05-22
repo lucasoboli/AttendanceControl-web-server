@@ -122,11 +122,11 @@ class Main extends React.Component {
         }
 
         // if (this.state.studentsFileRegister.length === 0) {
-        //     studentsFileRegisterError = '* É obrigatório selecionar um arquivo .extension'; // ToDo: mudar .extension
+        //     studentsFileRegisterError = '* É obrigatório selecionar um arquivo .pdf';
         // }
 
-        // else if (!this.state.studentsFileRegister.includes('.extension')) { // ToDo: mudar .extension's
-        //    studentsFileRegisterError = '* A extensão do arquivo deve ser .extension';
+        // else if (!this.state.studentsFileRegister.includes('.pdf')) {
+        //    studentsFileRegisterError = '* A extensão do arquivo deve ser .pdf (Gerado no SIGAA)';
         // }
 
         if (subjectCodeRegisterError || subjectNameRegisterError || classCodeRegisterError ||
@@ -162,7 +162,7 @@ class Main extends React.Component {
             .then((res) => {
                 this.setState({ showEdit: false, subjectIdEdit: "" })
                 document.location.reload()
-                // Se quiser colocar uma mesagem de sucesso aqui também [Lucas]
+                // ToDo: Se quiser colocar uma mesagem de sucesso aqui também [Lucas]
             }).catch((error) => {
                 // ToDo: Criar mensagem de erro p/ register e p/ edit [Lucas]
             });
@@ -408,7 +408,7 @@ class Main extends React.Component {
                                     <Form.File
                                         custom
                                         required
-                                        label='.extension (é .pdf?)'
+                                        label='.pdf'
                                         name='studentsFileRegister'
                                         value={studentsFileRegister}
                                         onChange={this.handleChange}

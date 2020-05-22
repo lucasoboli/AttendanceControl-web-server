@@ -3,7 +3,6 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Modal from 'react-bootstrap/Modal';
 import './RegisterUser.css';
@@ -135,7 +134,7 @@ class RegisterUser extends React.Component { // ToDo: código de verificação p
                             <Form.Group>
                                 <Form.Label htmlFor='email'> Email Institucional </Form.Label>
                                 <InputGroup>
-                                    <FormControl
+                                    <Form.Control
                                         required
                                         placeholder='Email'
                                         aria-label='Email'
@@ -153,7 +152,7 @@ class RegisterUser extends React.Component { // ToDo: código de verificação p
 
                             <Form.Label htmlFor='name'> Nome Completo </Form.Label>
                             <InputGroup className='mb-3'>
-                                <FormControl
+                                <Form.Control
                                     required
                                     placeholder='Nome'
                                     aria-label='Nome'
@@ -161,7 +160,7 @@ class RegisterUser extends React.Component { // ToDo: código de verificação p
                                     value={userName}
                                     onChange={this.handleChange}
                                 />
-                                <FormControl
+                                <Form.Control
                                     required
                                     placeholder='Sobrenome'
                                     aria-label='Sobrenome'
