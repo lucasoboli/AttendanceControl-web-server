@@ -2,9 +2,8 @@
 
 #nm-body {
     background-image: url('../images/404.jpg');
-    background-size: cover;
     background-repeat: no-repeat;
-    position: fixed;
+    position: absolute;
     min-height: 100vh;
     min-width: 100vw;
     font-family: "Roboto Mono", "Liberation Mono", Consolas, monospace;
@@ -25,6 +24,7 @@
 .container > .row,
 .container > .row > div {
     height: 100%;
+    position: relative;
 }
 
 #countUp {
