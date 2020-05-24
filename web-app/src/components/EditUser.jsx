@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import './RegisterUser.css';
+import '../style/RegisterUser.css';
 
 
 class EditUser extends React.Component {

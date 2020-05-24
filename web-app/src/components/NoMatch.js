@@ -1,6 +1,6 @@
 import React from 'react';
 //import $ from 'jquery';
-import './NoMatch.css';
+import '../style/NoMatch.css';
 
 
 class NoMatch extends React.Component {

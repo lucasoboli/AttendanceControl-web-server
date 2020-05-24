@@ -1,0 +1,100 @@
+
+.m-primary-container {
+    padding-top: 15vh;
+    background-color: aliceblue;
+    height: 100vh;
+    min-width: 600px;
+    box-shadow: 0 0 40px 10px rgba(0, 0, 0, 0.9);
+}
+
+.m-secondary-container {
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+@media (max-width: 500px) {
+    .m-buttons-div {
+        display: flex;
+        padding-bottom: 2%;
+    }
+}
+
+.m-button-register {
+    float: left;
+    padding-bottom: 1%;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.m-table-row-names {
+    background-color: #3c3c3c;
+    color: white;
+}
+
+.m-table-col-action {
+    width: 2%;
+    text-align: center;
+}
+
+.m-table-col-subCod {
+    width: 12%;
+    text-align: left;
+}
+
+.m-table-col-class {
+    width: 6%;
+    text-align: left;
+}
+
+.m-table-col-name {
+    width: max-content;
+}
+
+.m-table-col-schedule {
+    width: 16%;
+}
+
+.m-table-col-QR {
+    width: 12%;
+    text-align: left;
+}
+
+.m-table-action {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+}
+
+@media (max-width: 990px) {
+    .m-table-action {
+        display: inline-block;
+        vertical-align: middle !important;
+    }
+}
+
+.m-table-edit-button {
+    background: none !important;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.m-table-delete-button {
+    background: none !important;
+    border: none;
+    color: crimson;
+    cursor: pointer;
+}
+
+.m-table-edit-button:hover,
+.m-table-delete-button:hover {
+    filter: brightness(50%);
+    transform: scale(1.5);
+    transition: 0.2s ease-in-out;
+}
+
+.m-bottom-space-div {
+    height: 100px;
+}

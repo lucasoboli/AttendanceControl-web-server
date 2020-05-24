@@ -1,0 +1,44 @@
+
+.h-jumbotron {
+    text-align: center;
+    padding-top: 6rem;
+    width: 80%;
+    margin: auto;
+    min-width: 300px;
+}
+
+.h-modal-dialog {
+    margin-top: 6vh;
+    margin-bottom: 10vh;
+    box-shadow: 0 0 40px 10px rgba(0, 0, 0, 0.9);
+}
+
+.h-modal-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.h-modal-body {
+    justify-content: center;
+    padding-left: 12%;
+    padding-right: 12%;
+}
+
+.h-modal-body-title {
+    margin-bottom: 3vh;
+    text-align: center;
+}
+
+.h-modal-body-login-button-div {
+    text-align: center;
+}
+
+.h-modal-footer {
+    justify-content: center;
+}
+
+.h-error-msg {
+    color: crimson;
+    font-size: 12px;
+    margin-left: 10px;
+}

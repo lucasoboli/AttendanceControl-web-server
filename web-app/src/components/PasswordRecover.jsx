@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import './PasswordRecover.css';
+import '../style/PasswordRecover.css';
 
 
 class PasswordRecover extends React.Component {
