@@ -10,9 +10,6 @@ import '../style/Main.css';
 import '../style/RegisterClass.css';
 import '../style/EditClass.css';
 
-import qrimage from '../images/qr-test.png'; // Remover depois
-
-
 const initialRegisterErrorState = {
     subjectCodeRegisterError: "",
     subjectNameRegisterError: "",
@@ -53,11 +50,11 @@ class Main extends React.Component {
             // Para campos do modal QRCode
             codeSubjectQR: "",
             codeClassQR: "",
+            imgQR: "",
 
             // Para campo de Excluir [Turma/Disciplina]
             passwordDelete: "",
-            codeSubjectDelete: "",
-            codeClassDelete: ""
+            idSubjectDelete: ""
         };
     }
 
@@ -180,16 +177,13 @@ class Main extends React.Component {
     onSubmitDelete = event => { // ToDo: apenas validar a exclusão com a verificação da senha
         event.preventDefault();
         
-        /*                                     ToDo: conectar corretamente [Ana]
-        axios.get('http://localhost:3333/')
-            .then((res) => {
-                this.setState({
-
-                })
-            }) .catch((error) => {
-
-            }); */
-
+        axios.delete(`http://localhost:3333/subject/${this.state.idSubjectDelete}`)
+        .then((res) => {
+            this.setState({ idSubjectDelete: "" })
+            document.location.reload()
+        }).catch((error) => {
+            console.log(error)
+        });
     }
 
     showRegisterModal = () => {
@@ -222,25 +216,26 @@ class Main extends React.Component {
     }
 
     showQRModal = (codeSubjectQR, codeClassQR) => {
+
         this.setState({ showQR: true, codeSubjectQR: codeSubjectQR, codeClassQR: codeClassQR });
+
+        const dataQR = { acronyms: codeSubjectQR, class: codeClassQR }
+
+        axios.post(`http://localhost:3333/qrcode`, dataQR)
+        .then((res) => {
+            this.setState({ imgQR: res.data.data })
+        }).catch((error) => {
+            console.log(error)
+        });
+
     }
 
     hideQRModal = () => {
         this.setState({ showQR: false, codeSubjectQR: '', codeClassQR: '' });
     }
 
-    showDeleteModal = (codeSubjectDelete, codeClassDelete) => {
-        this.setState({ showDelete: true, codeSubjectDelete, codeClassDelete });
-
-        /*                                     ToDo: conectar corretamente [Ana]
-        axios.get('http://localhost:3333/')
-            .then((res) => {
-                this.setState({
-
-                })
-            }) .catch((error) => {
-
-            }); */
+    showDeleteModal = (idDelete) => {
+        this.setState({ showDelete: true, idSubjectDelete: idDelete});
     }
 
     hideDeleteModal = () => {
@@ -276,6 +271,7 @@ class Main extends React.Component {
             timeCodeEdit,
             time2CodeEdit,
 
+            imgQR,
             passwordDelete
         } = this.state;
 
@@ -329,7 +325,7 @@ class Main extends React.Component {
                                             <button
                                                 className='m-table-delete-button'
                                                 type='button'
-                                                onClick={() => this.showDeleteModal(subject.code_subject, subject.code_class)}
+                                                onClick={() => this.showDeleteModal(subject.id)}
                                             >
                                                 <svg className="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -602,7 +598,7 @@ class Main extends React.Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <img src={qrimage} alt="/" style={{maxWidth:'50%', minWidth:'50%', marginLeft:'25%'}}></img>
+                        <img src={imgQR} id="messages" width="300px" style={{maxWidth:'50%', minWidth:'50%', marginLeft:'25%'}}></img>
                     </Modal.Body>
 
                     <Modal.Footer style={{textAlign:'center'}}>

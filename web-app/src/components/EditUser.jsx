@@ -210,9 +210,12 @@ class EditUser extends React.Component {
     onSubmitDeleteAccount = event => { // ToDo: Conectar c/ Back-end p/ deletar perfil de prof.
         event.preventDefault();
 
-        /*const {
-            passwordDelete
-        } = this.state; */
+        axios.delete(`http://localhost:3333/professor/7`)
+            .then((res) => {
+                document.location.reload()
+            }).catch((error) => {
+                console.log(error)
+            });
 
         const isValid = this.validateDeleteAccount();
         if (isValid) {
