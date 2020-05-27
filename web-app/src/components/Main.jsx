@@ -364,6 +364,7 @@ class Main extends React.Component {
                 <Modal
                     id='register-class-modal'
                     size='lg'
+                    backdrop='static'
                     show={this.state.showRegister}
                     onHide={this.hideRegisterModal}
                     handleClose={this.hideRegisterModal}
@@ -493,6 +494,7 @@ class Main extends React.Component {
                 <Modal
                     id='edit-class-modal'
                     size='lg'
+                    backdrop='static'
                     show={this.state.showEdit}
                     onHide={this.hideEditModal}
                     handleClose={this.hideEditModal}
@@ -589,6 +591,7 @@ class Main extends React.Component {
                 <Modal
                     id='qr-code-modal'
                     size='xl'
+                    backdrop='static'
                     show={this.state.showQR}
                     onHide={this.hideQRModal}
                     handleClose={this.hideQRModal}
@@ -620,7 +623,7 @@ class Main extends React.Component {
                     onHide={this.hideDeleteModal}
                     handleClose={this.hideDeleteModal}
                 >
-                    <Modal.Header>
+                    <Modal.Header closeButton>
                         <Modal.Title style={{color:'crimson'}}> Atenção </Modal.Title>
                     </Modal.Header>
 
