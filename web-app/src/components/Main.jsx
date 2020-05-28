@@ -5,7 +5,6 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
-
 import '../style/Main.css';
 import '../style/RegisterClass.css';
 import '../style/EditClass.css';
@@ -221,12 +220,14 @@ class Main extends React.Component {
 
         const dataQR = { acronyms: codeSubjectQR, class: codeClassQR }
 
-        axios.post(`http://localhost:3333/qrcode`, dataQR)
-        .then((res) => {
-            this.setState({ imgQR: res.data.data })
-        }).catch((error) => {
-            console.log(error)
-        });
+        setInterval(async () => {
+            axios.post(`http://localhost:3333/qrcode`, dataQR)
+            .then((res) => {
+                this.setState({ imgQR: res.data.data })
+            }).catch((error) => {
+                console.log(error)
+            });
+        }, 15000);
 
     }
 

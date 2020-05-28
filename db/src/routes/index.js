@@ -4,7 +4,6 @@ const Student = require('../controllers/Student');
 const StudentModel = require('../models/Student');
 const SubjectModel = require('../models/Subject');
 
-
 const { token, auth, encrypt } = require('../controllers/Authentication');
 
 
@@ -12,9 +11,6 @@ const { getTime } = require('../../utils/time');
 const { qrgen } = require('../../utils/qrCode');
 
 module.exports = (app) => {
-
-    const http = require('http').Server(app);
-    const io = require('socket.io')(http);
 
     app
         .route('/login')
@@ -81,8 +77,6 @@ module.exports = (app) => {
     })
 
     app.post('/qrcode', function (req, res) {
-        // res.sendFile(__dirname + '/index.html');
-
 
         async function qrCode() {
             try {
@@ -120,9 +114,7 @@ module.exports = (app) => {
             }
         }
         
-        // setInterval(async () => {
-            qrCode();
-        // }, 15000);
+        qrCode();
 
     });
 
