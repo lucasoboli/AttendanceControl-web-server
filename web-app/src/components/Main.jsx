@@ -53,6 +53,8 @@ class Main extends React.Component {
             codeSubjectQR: "",
             codeClassQR: "",
             imgQR: "",
+            loaded: false,
+            keepGoingFlag: true,
 
             // Para campo de Excluir [Turma/Disciplina]
             passwordDelete: "",
@@ -219,23 +221,35 @@ class Main extends React.Component {
 
     showQRModal = (codeSubjectQR, codeClassQR) => {
 
-        this.setState({ showQR: true, codeSubjectQR: codeSubjectQR, codeClassQR: codeClassQR });
+        this.setState({ showQR: true, keepGoingFlag: true,
+            codeSubjectQR: codeSubjectQR, codeClassQR: codeClassQR 
+        });
 
         const dataQR = { acronyms: codeSubjectQR, class: codeClassQR }
 
         setInterval(async () => {
-            axios.post(`http://localhost:3333/qrcode`, dataQR)
-            .then((res) => {
-                this.setState({ imgQR: res.data.data })
-            }).catch((error) => {
-                console.log(error)
-            });
+
+            if (this.state.keepGoingFlag) {
+                axios.post(`http://localhost:3333/qrcode`, dataQR)
+                .then((res) => {
+                    this.setState({ imgQR: res.data.data, loaded: true });
+                }).catch((error) => {
+                    console.log(error);
+                });
+            } else {
+                return;
+            }
         }, 15000);
 
     }
 
+    userException = (msg) => {
+        console.log('userException Trown: ' + msg);
+    }
+
     hideQRModal = () => {
-        this.setState({ showQR: false, codeSubjectQR: '', codeClassQR: '' });
+        this.setState({ showQR: false, keepGoingFlag: false, codeSubjectQR: '', codeClassQR: '' });
+        this.userException('O modal foi fechado. Chamada Encerrada.');
     }
 
     showDeleteModal = (idDelete) => {
@@ -604,7 +618,17 @@ class Main extends React.Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <img src={imgQR} id="messages" width="300px" style={{maxWidth:'50%', minWidth:'50%', marginLeft:'25%'}}></img>
+                        {this.state.loaded ? (
+                            <div>
+                                <img src={imgQR} id="messages" width="300px" style={{maxWidth:'50%', minWidth:'50%', marginLeft:'25%'}}></img>
+                            </div>
+                        ) : (
+                            <div className='d-flex justify-content-center'>
+                                <div className='spinner-border text-secondary' role='status'>
+                                    <span className='sr-only'> Carregando... </span>
+                                </div>
+                            </div>
+                        )}
                     </Modal.Body>
 
                     <Modal.Footer style={{textAlign:'center'}}>
