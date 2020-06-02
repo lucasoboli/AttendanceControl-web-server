@@ -7,6 +7,8 @@ import Container from 'react-bootstrap/Container';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+
+import CustomNavbar from './CustomNavbar';
 import '../style/RegisterUser.css';
 
 
@@ -267,6 +269,8 @@ class EditUser extends React.Component {
         return (
 
             <React.Fragment>
+                <CustomNavbar pageName='edit-user' />
+                
                 <Container>
                     <br></br>
 
@@ -436,11 +440,11 @@ class EditUser extends React.Component {
                                         <Card.Body>
                                             <Form>
                                                 <h5> Recuperação de Senha </h5>
-                                                <Form.Text> Caso você possua um cadastro na plataforma, 
-                                                    um email com um link para reset de senha será enviado
-                                                    para o seu email cadastrado.
+                                                <Form.Text> Caso você esteja logando, tenha esquecido
+                                                    sua senha de acesso e deseja resetá-la, utilize
+                                                    o campo fornecido abaixo.
                                                 </Form.Text>
-                                                <Form.Text> Digite seu email cadastrado: </Form.Text>
+                                                <Form.Text> Digite seu email de cadastro: </Form.Text>
 
                                                 <InputGroup className='ru-recover-password-input-group'>
                                                     <Form.Control

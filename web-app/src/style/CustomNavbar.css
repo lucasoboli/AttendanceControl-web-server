@@ -22,6 +22,14 @@
 .cn-title {
     height: 100%;
     width: 100%;
+    color: white;
+    cursor: context-menu;
+}
+
+.cn-title:hover,
+.cn-title:focus {
+    color: white;
+    text-decoration: none;
 }
 
 .cn-buttons-container {
@@ -34,7 +42,7 @@
     width: 4rem;
     height: 2rem;
     border-radius: 4px;
-    transition-duration: 1.5s;
+    transition-duration: 1s;
     border: 1px solid white;
     background-color: #14a5ff;
     color: white;
@@ -42,9 +50,8 @@
 
 .cn-logout-button:hover,
 .cn-logout-button:focus {
-    border: 2px solid #cccccc;
     background-color: white;
-    color: #148dff;
+    color: #5f5f5f;
     /*box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);*/
     box-shadow: inset -3.5em 0 0 0 white, inset 3.5em 0 0 0 white;
 }
@@ -62,7 +69,23 @@
 
 .cn-edit-user-button:hover,
 .cn-edit-user-button:focus {
-    border: 2px solid #cccccc;
     background-color: white;
-    color: #14a5ff;
+    color: #5f5f5f;
+}
+
+.cn-back-to-main-button {
+    text-align: center;
+    min-width: 3em;
+    height: 2rem;
+    display: block;
+    border: 1px solid white;
+    border-radius: 4px;
+    transition-duration: 1s;
+    color: white;
+}
+
+.cn-back-to-main-button:hover,
+.cn-back-to-main-button:focus {
+    background-color: white;
+    color: #5f5f5f;
 }

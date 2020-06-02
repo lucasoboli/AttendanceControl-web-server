@@ -5,6 +5,8 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Modal from 'react-bootstrap/Modal';
+
+import CustomNavbar from './CustomNavbar';
 import '../style/RegisterUser.css';
 
 
@@ -120,110 +122,130 @@ class RegisterUser extends React.Component { // ToDo: código de verificação p
 
         return (
 
-            <Container>
-                <br></br>
+            <React.Fragment>
+                <CustomNavbar pageName='register-user' />
 
-                <Modal.Dialog className='ru-modal-dialog'>
+                <Container>
+                    <br></br><br></br>
 
-                    <Modal.Header>
-                        <Modal.Title> Cadastro de Novo Usuário </Modal.Title>
-                    </Modal.Header>
+                    <Modal.Dialog className='ru-modal-dialog'>
 
-                    <Modal.Body className='ru-modal-body'>
-                        <Form>
-                            <Form.Group>
-                                <Form.Label htmlFor='email'> Email Institucional </Form.Label>
-                                <InputGroup>
+                        <Modal.Header>
+                            <Modal.Title> Cadastro de Novo Usuário </Modal.Title>
+
+                                <button
+                                    className='ru-modal-header-goback-button'
+                                    type='button'
+                                    data-toggle='tooltip'
+                                    data-placement='bottom'
+                                    title='Cancelar e voltar para a página inicial'
+                                >
+                                    <a href='/home' style={{color:'inherit'}}>
+                                        <svg className="bi bi-box-arrow-left" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fillRule="evenodd" d="M4.354 11.354a.5.5 0 000-.708L1.707 8l2.647-2.646a.5.5 0 10-.708-.708l-3 3a.5.5 0 000 .708l3 3a.5.5 0 00.708 0z" clipRule="evenodd"/>
+                                            <path fillRule="evenodd" d="M11.5 8a.5.5 0 00-.5-.5H2a.5.5 0 000 1h9a.5.5 0 00.5-.5z" clipRule="evenodd"/>
+                                            <path fillRule="evenodd" d="M14 13.5a1.5 1.5 0 001.5-1.5V4A1.5 1.5 0 0014 2.5H7A1.5 1.5 0 005.5 4v1.5a.5.5 0 001 0V4a.5.5 0 01.5-.5h7a.5.5 0 01.5.5v8a.5.5 0 01-.5.5H7a.5.5 0 01-.5-.5v-1.5a.5.5 0 00-1 0V12A1.5 1.5 0 007 13.5h7z" clipRule="evenodd"/>
+                                        </svg>
+                                    </a>
+                                </button>
+                        </Modal.Header>
+
+                        <Modal.Body className='ru-modal-body'>
+                            <Form>
+                                <Form.Group>
+                                    <Form.Label htmlFor='email'> Email Institucional </Form.Label>
+                                    <InputGroup>
+                                        <Form.Control
+                                            required
+                                            placeholder='Email'
+                                            aria-label='Email'
+                                            name='email'
+                                            value={email}
+                                            onChange={this.handleChange}
+                                        />
+                                        <InputGroup.Append>
+                                            <InputGroup.Text id='basic-addon2'>@unifei.edu.br</InputGroup.Text>
+                                        </InputGroup.Append>
+                                    </InputGroup>
+                                    <div className='ru-error-msg'> {this.state.emailError} </div>
+                                </Form.Group>
+
+
+                                <Form.Label htmlFor='name'> Nome Completo </Form.Label>
+                                <InputGroup className='mb-3'>
                                     <Form.Control
                                         required
-                                        placeholder='Email'
-                                        aria-label='Email'
-                                        name='email'
-                                        value={email}
+                                        placeholder='Nome'
+                                        aria-label='Nome'
+                                        name='userName'
+                                        value={userName}
                                         onChange={this.handleChange}
                                     />
-                                    <InputGroup.Append>
-                                        <InputGroup.Text id='basic-addon2'>@unifei.edu.br</InputGroup.Text>
-                                    </InputGroup.Append>
+                                    <Form.Control
+                                        required
+                                        placeholder='Sobrenome'
+                                        aria-label='Sobrenome'
+                                        name='userSurname'
+                                        value={userSurname}
+                                        onChange={this.handleChange}
+                                    />
                                 </InputGroup>
-                                <div className='ru-error-msg'> {this.state.emailError} </div>
-                            </Form.Group>
+                                <div className='ru-error-msg'> {this.state.userNameError} </div>
 
+                                <Form.Group>
+                                    <Form.Label htmlFor='password'> Digite uma Senha </Form.Label>
+                                    <Form.Control
+                                        required
+                                        type='password'
+                                        placeholder='Senha'
+                                        aria-label='Senha'
+                                        name='password'
+                                        value={password}
+                                        onChange={this.handleChange}
+                                    />
+                                    <div className='ru-error-msg'> {this.state.passwordError} </div>
+                                </Form.Group>
 
-                            <Form.Label htmlFor='name'> Nome Completo </Form.Label>
-                            <InputGroup className='mb-3'>
-                                <Form.Control
-                                    required
-                                    placeholder='Nome'
-                                    aria-label='Nome'
-                                    name='userName'
-                                    value={userName}
-                                    onChange={this.handleChange}
-                                />
-                                <Form.Control
-                                    required
-                                    placeholder='Sobrenome'
-                                    aria-label='Sobrenome'
-                                    name='userSurname'
-                                    value={userSurname}
-                                    onChange={this.handleChange}
-                                />
-                            </InputGroup>
-                            <div className='ru-error-msg'> {this.state.userNameError} </div>
+                                <Form.Group>
+                                    <Form.Label> Repita a Senha </Form.Label>
+                                    <Form.Control
+                                        required
+                                        type='password'
+                                        placeholder='Senha'
+                                        aria-label='Senha-Repetida'
+                                        name='password2'
+                                        value={password2}
+                                        onChange={this.handleChange}
+                                    />
+                                    <div className='ru-error-msg'> {this.state.password2Error} </div>
+                                </Form.Group>
 
-                            <Form.Group>
-                                <Form.Label htmlFor='password'> Digite uma Senha </Form.Label>
-                                <Form.Control
-                                    required
-                                    type='password'
-                                    placeholder='Senha'
-                                    aria-label='Senha'
-                                    name='password'
-                                    value={password}
-                                    onChange={this.handleChange}
-                                />
-                                <div className='ru-error-msg'> {this.state.passwordError} </div>
-                            </Form.Group>
+                                <div className='ru-register-button-position'>
+                                    <Button
+                                        variant='primary'
+                                        type='submit'
+                                        onClick={this.onSubmit}
+                                    > CADASTRAR 
+                                    </Button>
+                                </div>
+                            </Form>
+                        </Modal.Body>
 
-                            <Form.Group>
-                                <Form.Label> Repita a Senha </Form.Label>
-                                <Form.Control
-                                    required
-                                    type='password'
-                                    placeholder='Senha'
-                                    aria-label='Senha-Repetida'
-                                    name='password2'
-                                    value={password2}
-                                    onChange={this.handleChange}
-                                />
-                                <div className='ru-error-msg'> {this.state.password2Error} </div>
-                            </Form.Group>
-
-                            <div className='ru-register-button-position'>
+                        <Modal.Footer>
+                            <div>
                                 <Button
-                                    variant='primary'
-                                    type='submit'
-                                    onClick={this.onSubmit}
-                                > CADASTRAR 
+                                    variant='outline-secondary'
+                                    type='reset'
+                                    href='/home'
+                                > CANCELAR
                                 </Button>
                             </div>
-                        </Form>
-                    </Modal.Body>
+                        </Modal.Footer>
+                    </Modal.Dialog>
 
-                    <Modal.Footer>
-                        <div>
-                            <Button
-                                variant='outline-secondary'
-                                type='reset'
-                                href='/home'
-                            > VOLTAR 
-                            </Button>
-                        </div>
-                    </Modal.Footer>
-                </Modal.Dialog>
+                </Container>
 
-            </Container>
-
+            </React.Fragment>
         )
     }
 }

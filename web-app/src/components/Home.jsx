@@ -6,6 +6,8 @@ import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+
+import CustomNavbar from './CustomNavbar';
 import '../style/Home.css';
 
 
@@ -89,7 +91,8 @@ class Home extends React.Component {
         return (
 
             <React.Fragment>
-                
+                <CustomNavbar pageName='home' />
+
                 <Container>
                     <Jumbotron className='h-jumbotron'>
                         <svg className="bi bi-check-all" width="5em" height="5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

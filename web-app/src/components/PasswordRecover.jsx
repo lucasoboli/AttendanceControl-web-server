@@ -5,6 +5,8 @@ import Container from 'react-bootstrap/Container';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+
+import CustomNavbar from './CustomNavbar';
 import '../style/PasswordRecover.css';
 
 
@@ -13,6 +15,8 @@ class PasswordRecover extends React.Component {
         return (
 
             <React.Fragment>
+                <CustomNavbar pageName='password-recover' />
+                
                 <Container>
                     <br></br>
 
@@ -81,7 +85,7 @@ class PasswordRecover extends React.Component {
                                 variant='outline-secondary'
                                 type='reset'
                                 href='/home'
-                            > CANCELAR
+                            > VOLTAR
                             </Button>
                         </Modal.Footer>
                     </Modal.Dialog>

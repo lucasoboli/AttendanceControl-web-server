@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import CustomNavbar from './CustomNavbar';
 import EditUser from './EditUser';
 import Home from './Home';
 import Main from './Main';
@@ -17,15 +16,18 @@ class App extends React.Component {
       <React.Fragment>
 
         <Router>
-          <CustomNavbar/>
           <Switch>
-            <Route exact={true} path="/" component={ Home } />
-            <Route path="/home" component={ Home } />
-            <Route path="/main" component={ Main } />
-            <Route path="/edit-user" component={ EditUser } />
-            <Route path="/register-user" component={ RegisterUser } />
-            <Route path="/password-recover" component={ PasswordRecover } />
+
+            <Route exact={true} path="/" render={(props) => <Home {...props} />} />
+            <Route exact={true} path="/home" render={(props) => <Home {...props} />} />
+            <Route exact={true} path="/register-user" render={(props) => <RegisterUser {...props} />} />
+            <Route exact={true} path="/password-recover" render={(props) => <PasswordRecover {...props} />} />
+
+            <Route exact={true} path="/main" render={(props) => <Main {...props} />} />
+            <Route exact={true} path="/edit-user" render={(props) => <EditUser {...props} />} />
+
             <Route path="*" component= { NoMatch }/>
+            
           </Switch>
         </Router>
         

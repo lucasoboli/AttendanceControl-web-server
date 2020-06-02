@@ -5,9 +5,12 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
+
+import CustomNavbar from './CustomNavbar';
 import '../style/Main.css';
 import '../style/RegisterClass.css';
 import '../style/EditClass.css';
+
 
 const initialRegisterErrorState = {
     subjectCodeRegisterError: "",
@@ -279,6 +282,8 @@ class Main extends React.Component {
         return (
 
             <React.Fragment>
+                <CustomNavbar pageName='main' />
+                
                 <Container className='m-primary-container'>
 
                     <Container className='m-secondary-container'>
