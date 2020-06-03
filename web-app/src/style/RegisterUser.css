@@ -1,4 +1,9 @@
 
+/*
+    This part is shared by RegisterUser and
+    EditUser pages
+*/
+
 .ru-modal-dialog {
     margin-top: 10vh;
     margin-bottom: 10vh;
@@ -34,6 +39,10 @@
 
 .ru-accordion {
     margin-top: 10vh;
+}
+
+.card {
+    border: 1px solid rgba(220, 20, 60, 0.5); /* crimson ajustado */
 }
 
 .ru-attention-msg {

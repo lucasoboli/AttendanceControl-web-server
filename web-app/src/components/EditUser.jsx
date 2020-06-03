@@ -4,12 +4,14 @@ import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 import Modal from 'react-bootstrap/Modal';
+import Toast from 'react-bootstrap/Toast';
 
 import CustomNavbar from './CustomNavbar';
 import '../style/RegisterUser.css';
+import '../style/Toasters.css';
 
 
 class EditUser extends React.Component {
@@ -36,29 +38,49 @@ class EditUser extends React.Component {
 
             // Para campo de Delete Account
             passwordDelete: "",
-            passwordDeleteError: ""
+            passwordDeleteError: "",
+
+            // Para exibição de notificações
+            successToast: false,
+            successToastMsg: "",
+            errorToast: false,
+            errorToastMsg: ""
         };
     }
+
 
     handleChange = event => {
         this.setState({
             [event.target.name]: event.target.value
         });
     }
-
     
+    toggleSuccessToast = (msg) => {
+        const {successToast, successToastMsg} = this.state;
+
+        this.setState({ successToast: !successToast, successToastMsg: msg });
+    }
+
+    toggleErrorToast = (msg) => {
+        const {errorToast, errorToastMsg} = this.state;
+
+        this.setState({ errorToast: !errorToast, errorToastMsg: msg});
+    }
+
     componentDidMount = () => {
-        // Preenche com os dados autais do professor
+        // Preenche com os dados atuais do professor
         axios.get('http://localhost:3333/professor/6')
             .then((res) => {
-                console.log(res.data)
+                console.log(res.data);
+
                 this.setState({
                     userEmailUpdate: res.data.email,
                     userNameUpdate: res.data.name.split(' ')[0],
                     userSurnameUpdate: res.data.name.split(' ')[1]
-                })
+                });
+
             }).catch((error) => {
-                console.log(error)
+                console.log(error);
             });
     }
 
@@ -86,20 +108,25 @@ class EditUser extends React.Component {
         // Verifica se a senha digitada está correta
         axios.post('http://localhost:3333/login', userObject)
             .then((res) => {
+
                 // Altera os dados do professor (nome)
                 axios.put('http://localhost:3333/professor/6', data)
                     .then((res) => {
                         document.location.reload()
-                        // ToDo: Acho que pode colocar um modal de editado, ou voltar pra página principal [Lucas]
+                        this.toggleSuccessToast('Informações alteradas com sucesso');
+
                     }).catch((error) => {
-                        console.log(error)
+                        console.log(error);
                     });
                     
             }).catch((error) => {
-                // ToDo: Aparecer que a senha está errada [Lucas]
+                if (data.password.length === 0) {
+                    this.setState ({ passwordUpdateError: '* Este campo é obrigatório' });
+                } else {
+                    this.setState({ passwordUpdateError: '* Senha incorreta' });
+                    this.toggleErrorToast('Senha incorreta. Caso não lembre sua senha, utilize o botão "Esqueci Minha Senha" desta página');
+                }
             });
-
-
 
         const isValid = this.validateUpdate();
         if (isValid) {
@@ -107,9 +134,7 @@ class EditUser extends React.Component {
             this.setState({ userNameUpdateError: '', passwordUpdateError: '' });
 
             // Limpando o Form
-            this.setState({ userNameUpdate: '', userSurnameUpdate: '',
-                passwordUpdate: ''
-            });
+            this.setState({ passwordUpdate: '' });
         }
     }
 
@@ -155,16 +180,18 @@ class EditUser extends React.Component {
                     axios.put('/professor/6/password', { password: res.data.password })
                     .then((res) => {
                         document.location.reload()
-                        // ToDo: Acho que pode colocar um modal de senha editada, ou voltar pra página principal [Lucas]
+                        this.toggleSuccessToast('Senha alterada com sucesso');
+
                     }).catch((error) => {
                         console.log(error)
                     });
+
                 }).catch((error) => {
                     console.log(error)
                 });
 
         }).catch((error) => {
-            // ToDo: Aparecer que a senha atual está errada [Lucas]
+            this.toggleErrorToast('Senha incorreta');
         });
 
         const isValid = this.validatePasswordRenew();
@@ -214,9 +241,13 @@ class EditUser extends React.Component {
 
         axios.delete(`http://localhost:3333/professor/7`)
             .then((res) => {
-                document.location.reload()
+                document.location.reload();
+                this.toggleSuccessToast('Sua conta foi deletada');
+                // ToDo: redirecionar para /home e extinguir sessão
+
             }).catch((error) => {
-                console.log(error)
+                console.log(error);
+                this.toggleErrorToast('Senha incorreta');
             });
 
         const isValid = this.validateDeleteAccount();
@@ -224,7 +255,7 @@ class EditUser extends React.Component {
             // Limpando erros do Form
             this.setState({ passwordDeleteError: '' });
 
-            //Limpando o Form
+            // Limpando o Form
             this.setState({ passwordDelete:'' });
         }
     }
@@ -263,7 +294,11 @@ class EditUser extends React.Component {
             actualPasswordRenew,
             newPasswordRenew,
             newPassword2Renew,
-            passwordDelete
+            passwordDelete,
+            successToast,
+            successToastMsg,
+            errorToast,
+            errorToastMsg
         } = this.state;
 
         return (
@@ -304,10 +339,9 @@ class EditUser extends React.Component {
                                         <Form.Control
                                             disabled
                                             contentEditable='false'
-                                            placeholder={userEmailUpdate.split('@')[0]} // ToDo: Puxar valor do 'value'
+                                            placeholder={userEmailUpdate.split('@')[0]}
                                             aria-label='Email'
                                             name='email'
-                                        // ToDo: Alterar 'value' para email do atual login
                                         />
                                         <InputGroup.Append>
                                             <InputGroup.Text id='basic-addon2'> @unifei.edu.br </InputGroup.Text>
@@ -361,6 +395,8 @@ class EditUser extends React.Component {
                             </Form>
 
                             <Accordion className='ru-accordion'>
+                                <h5 className='ru-attention-msg'> Zona de Perigo </h5>
+                                
                                 <Card>
                                     <Card.Header>
                                         <Accordion.Toggle
@@ -440,7 +476,7 @@ class EditUser extends React.Component {
                                         <Card.Body>
                                             <Form>
                                                 <h5> Recuperação de Senha </h5>
-                                                <Form.Text> Caso você esteja logando, tenha esquecido
+                                                <Form.Text> Caso você esteja logado, tenha esquecido
                                                     sua senha de acesso e deseja resetá-la, utilize
                                                     o campo fornecido abaixo.
                                                 </Form.Text>
@@ -560,6 +596,58 @@ class EditUser extends React.Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
+
+
+                <div className='t-container'>
+
+                    <Toast
+                        id='error-toast-edit-user'
+                        show={errorToast}
+                        onClose={this.toggleErrorToast}
+                        animation={true}
+                        autohide
+                        delay={10000}
+                        className='t-toast'
+                    >
+                        <Toast.Header>
+                            <svg class="bi bi-exclamation-circle-fill t-error-text" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                            </svg>
+                            <div style={{width:'2%'}}></div>
+                            <strong className='mr-auto t-error-text t-font'> Erro </strong>
+                            <small> attendancecontrol </small>
+                        </Toast.Header>
+
+                        <Toast.Body className='t-error-text'>
+                            <p> {errorToastMsg} </p>
+                        </Toast.Body>
+                    </Toast>
+
+                    <Toast
+                        id='success-toast-edit-user'
+                        show={successToast}
+                        onClose={this.toggleSuccessToast}
+                        animation={true}
+                        autohide
+                        delay={8000}
+                        className='t-toast'
+                    >
+                        <Toast.Header>
+                            <svg class="bi bi-check2-all t-success-text" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                                <path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/>
+                            </svg>
+                            <div style={{width:'2%'}}></div>
+                            <strong className='mr-auto t-success-text t-font'> Sucesso </strong>
+                            <small> attendancecontrol </small>
+                        </Toast.Header>
+
+                        <Toast.Body className='t-success-text'>
+                            <p> {successToastMsg} </p>
+                        </Toast.Body>
+                    </Toast>
+
+                </div>
                 
             </React.Fragment>
         );

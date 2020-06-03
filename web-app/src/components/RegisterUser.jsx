@@ -5,9 +5,11 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Modal from 'react-bootstrap/Modal';
+import Toast from 'react-bootstrap/Toast';
 
 import CustomNavbar from './CustomNavbar';
 import '../style/RegisterUser.css';
+import '../style/Toasters.css';
 
 
 const initialErrorState = {
@@ -32,7 +34,11 @@ class RegisterUser extends React.Component { // ToDo: código de verificação p
             emailError: "",
             userNameError: "",
             passwordError: "",
-            password2Error: ""
+            password2Error: "",
+
+            // Para exibição de notificações (apenas de sucesso para esta página)
+            successToast: false,
+            succesToastMsg: ""
         };
     }
 
@@ -42,7 +48,13 @@ class RegisterUser extends React.Component { // ToDo: código de verificação p
         });
     };
 
-    onSubmit = event => { // ToDo: Só enviar as infos do formulário se ele for válido
+    toggleSuccessToast = (msg) => {
+        const {successToast, successToastMsg} = this.state;
+
+        this.setState({ successToast: !successToast, successToastMsg: msg });
+    }
+
+    onSubmit = event => {
         event.preventDefault();
         
         const {
@@ -60,9 +72,13 @@ class RegisterUser extends React.Component { // ToDo: código de verificação p
 
         axios.post('http://localhost:3333/professor/', data)
             .then((res) => {
-                // Aparacer um modal de "Cadastrado com sucesso"
+                this.toggleSuccessToast('Cadastro realizado com sucesso!' +
+                + 'Um email de confirmação foi enviado para' + email);
+
+                window.location.href = 'http://localhost:3000/home';
+
             }).catch((error) => {
-                console.log(error)
+                console.log(error);
             });
 
         const isValid = this.validate();
@@ -117,7 +133,9 @@ class RegisterUser extends React.Component { // ToDo: código de verificação p
             userName,
             userSurname,
             password,
-            password2
+            password2,
+            successToast,
+            successToastMsg
         } = this.state;
 
         return (
@@ -244,6 +262,34 @@ class RegisterUser extends React.Component { // ToDo: código de verificação p
                     </Modal.Dialog>
 
                 </Container>
+
+                <div className='t-container'>
+
+                    <Toast
+                        id='success-toast-register-user'
+                        show={successToast}
+                        onClose={this.toggleSuccessToast}
+                        animation={true}
+                        autohide
+                        delay={8000}
+                        className='t-toast'
+                    >
+                        <Toast.Header>
+                            <svg class="bi bi-check2-all t-success-text" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                                <path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/>
+                            </svg>
+                            <div style={{width:'2%'}}></div>
+                            <strong className='mr-auto t-success-text t-font'> Sucesso </strong>
+                            <small> attendancecontrol </small>
+                        </Toast.Header>
+
+                        <Toast.Body className='t-success-text'>
+                            <p> {successToastMsg} </p>
+                        </Toast.Body>
+                    </Toast>
+
+                </div>
 
             </React.Fragment>
         )

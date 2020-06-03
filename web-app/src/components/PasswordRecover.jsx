@@ -8,7 +8,8 @@ import Modal from 'react-bootstrap/Modal';
 
 import CustomNavbar from './CustomNavbar';
 import '../style/PasswordRecover.css';
-
+//ToDo: implementar notificação de sucesso/envio de email por toast 
+//      quando o back estiver feito
 
 class PasswordRecover extends React.Component {
     render() {
