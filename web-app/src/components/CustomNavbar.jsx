@@ -9,13 +9,13 @@ class CustomNavbar extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { // A ser usado quando a verificação for feita com token de login
-            // isLoggedIn: false
+        this.state = { // [Ana] A ser usado quando a verificação for feita com token de login
+            //isLoggedIn: false
         };
     }
 
-    onLogout = () => { // ToDo: extinguir token de sessão
-        // Back-end
+    onLogout = () => { // [Ana] ToDo: extinguir token de sessão
+        
     }
 
 

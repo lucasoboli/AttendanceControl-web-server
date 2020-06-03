@@ -1,14 +1,16 @@
 import React from 'react';
 import axios from 'axios';
-import Jumbotron from 'react-bootstrap/Jumbotron';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Jumbotron from 'react-bootstrap/Jumbotron';
+import Modal from 'react-bootstrap/Modal';
+import Toast from 'react-bootstrap/Toast';
 
 import CustomNavbar from './CustomNavbar';
 import '../style/Home.css';
+import '../style/Toasters.css';
 
 
 const initialErrorState = {
@@ -26,14 +28,33 @@ class Home extends React.Component {
             email: "",
             password: "",
             emailError: "",
-            passwordError: ""
+            passwordError: "",
+
+            // Para exibição de notificações
+            successToast: false,
+            successToastMsg: "",
+            errorToast: false,
+            errorToastMsg: ""
         };
     }
+
 
     handleChange = event => {
         this.setState({
             [event.target.name]: event.target.value
         });
+    }
+
+    toggleSuccessToast = (msg) => {
+        const {successToast, successToastMsg} = this.state;
+
+        this.setState({ successToast: !successToast, successToastMsg: msg });
+    }
+
+    toggleErrorToast = (msg) => {
+        const {errorToast, errorToastMsg} = this.state;
+
+        this.setState({ errorToast: !errorToast, errorToastMsg: msg });
     }
 
     onSubmit = event => {
@@ -46,9 +67,20 @@ class Home extends React.Component {
 
         axios.post('http://localhost:3333/login', userObject)
             .then((res) => {
-                console.log(res.data)
+                console.log(res.data); // ToDo: remover esta linha
+                
+                window.location.href = 'http://localhost:3000/main';
+
             }).catch((error) => {
-                console.log(error)
+                console.log(error);
+
+                if (userObject.password.length === 0) {
+                    this.setState ({ passwordError: '* Este campo é obrigatório' });
+                } else {
+                    this.setState({ passwordError: '* Senha incorreta' });
+                    this.toggleErrorToast('Senha incorreta');
+                }
+
             });
 
         this.setState({ password: '' });
@@ -85,7 +117,11 @@ class Home extends React.Component {
 
         const {
             email,
-            password
+            password,
+            successToast,
+            successToastMsg,
+            errorToast,
+            errorToastMsg
         } = this.state;
 
         return (
@@ -94,6 +130,7 @@ class Home extends React.Component {
                 <CustomNavbar pageName='home' />
 
                 <Container>
+
                     <Jumbotron className='h-jumbotron'>
                         <svg className="bi bi-check-all" width="5em" height="5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" d="M12.354 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L5 10.293l6.646-6.647a.5.5 0 01.708 0z" clipRule="evenodd"/>
@@ -168,10 +205,61 @@ class Home extends React.Component {
                             > CADASTRE-SE 
                             </Button>
                         </Modal.Footer>
-                        
                     </Modal.Dialog>
 
                 </Container>
+
+                <div className='t-container'>
+
+                    <Toast
+                        id='error-toast-home'
+                        show={errorToast}
+                        onClose={this.toggleErrorToast}
+                        animation={true}
+                        autohide
+                        delay={10000}
+                        className='t-toast'
+                    >
+                        <Toast.Header>
+                            <svg class="bi bi-exclamation-circle-fill t-error-text" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                            </svg>
+                            <div style={{width:'2%'}}></div>
+                            <strong className='mr-auto t-error-text t-font'> Erro </strong>
+                            <small> attendancecontrol </small>
+                        </Toast.Header>
+
+                        <Toast.Body className='t-error-text'>
+                            <p> {errorToastMsg} </p>
+                        </Toast.Body>
+                    </Toast>
+
+                    <Toast
+                        id='success-toast-home'
+                        show={successToast}
+                        onClose={this.toggleSuccessToast}
+                        animation={true}
+                        autohide
+                        delay={8000}
+                        className='t-toast'
+                    >
+                        <Toast.Header>
+                            <svg class="bi bi-check2-all t-success-text" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                                <path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/>
+                            </svg>
+                            <div style={{width:'2%'}}></div>
+                            <strong className='mr-auto t-success-text t-font'> Sucesso </strong>
+                            <small> attendancecontrol </small>
+                        </Toast.Header>
+
+                        <Toast.Body className='t-success-text'>
+                            <p> {successToastMsg} </p>
+                        </Toast.Body>
+                    </Toast>
+
+                </div>
+
             </React.Fragment>
         );
     }

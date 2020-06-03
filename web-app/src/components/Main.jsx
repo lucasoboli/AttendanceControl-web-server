@@ -5,11 +5,13 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
+import Toast from 'react-bootstrap/Toast';
 
 import CustomNavbar from './CustomNavbar';
 import '../style/Main.css';
 import '../style/RegisterClass.css';
 import '../style/EditClass.css';
+import '../style/Toasters.css';
 
 
 const initialRegisterErrorState = {
@@ -58,14 +60,33 @@ class Main extends React.Component {
 
             // Para campo de Excluir [Turma/Disciplina]
             passwordDelete: "",
-            idSubjectDelete: ""
+            idSubjectDelete: "",
+
+            // Para exibição de notificações
+            successToast: false,
+            successToastMsg: "",
+            errorToast: false,
+            errorToastMsg: ""
         };
     }
+
 
     handleChange = event => {
         this.setState({
             [event.target.name]: event.target.value
         });
+    }
+
+    toggleSuccessToast = (msg) => {
+        const {successToast, successToastMsg} = this.state;
+
+        this.setState({ successToast: !successToast, successToastMsg: msg });
+    }
+
+    toggleErrorToast = (msg) => {
+        const {errorToast, errorToastMsg} = this.state;
+
+        this.setState({ errorToast: !errorToast, errorToastMsg: msg });
     }
 
     onSubmitRegister = event => {
@@ -89,10 +110,12 @@ class Main extends React.Component {
 
         axios.post('http://localhost:3333/professor/3/subject/', data)
             .then((res) => {
-                this.setState({showRegister: false})
-                document.location.reload()
+                this.setState({showRegister: false});
+                document.location.reload();
+                setTimeout(function(){ this.toggleSuccessToast('Uma nova turma foi cadastrada'); }, 3000);
+
             }).catch((error) => {
-                console.log(error)
+                console.log(error);
             });
 
         const isValid = this.validate();
@@ -124,19 +147,21 @@ class Main extends React.Component {
 
         if (this.state.timeCodeRegister.length === 0) {
             timeCodeRegisterError = '* O campo "Horário" é obrigatório';
-        }
-
-        else if (this.state.timeCodeRegister.length < 4) {
-            timeCodeRegisterError = '* Verifique o código do horário digitado';
+        } else {
+            if (this.state.timeCodeRegister.length < 3) {
+                timeCodeRegisterError = '* Verifique o código do horário digitado';
+            }
         }
 
         // if (this.state.studentsFileRegister.length === 0) {
         //     studentsFileRegisterError = '* É obrigatório selecionar um arquivo .pdf';
         // }
 
-        // else if (!this.state.studentsFileRegister.includes('.pdf')) {
-        //    studentsFileRegisterError = '* A extensão do arquivo deve ser .pdf (Gerado no SIGAA)';
-        // }
+        // else {
+        //    if (!this.state.studentsFileRegister.includes('.pdf')) {
+        //      studentsFileRegisterError = '* A extensão do arquivo deve ser .pdf (Gerado no SIGAA)';
+        //    }
+        //  }
 
         if (subjectCodeRegisterError || subjectNameRegisterError || classCodeRegisterError ||
             timeCodeRegisterError || studentsFileRegisterError) {
@@ -170,11 +195,13 @@ class Main extends React.Component {
 
         axios.put(`http://localhost:3333/subject/${subjectIdEdit}`, data)
             .then((res) => {
-                this.setState({ showEdit: false, subjectIdEdit: "" })
-                document.location.reload()
-                // ToDo: Se quiser colocar uma mesagem de sucesso aqui também [Lucas]
+                this.setState({ showEdit: false, subjectIdEdit: "" });
+                document.location.reload();
+                this.toggleSuccessToast('Turma editada com sucesso');
+
             }).catch((error) => {
-                // ToDo: Criar mensagem de erro p/ register e p/ edit [Lucas]
+                console.log(error);
+                this.toggleErrorToast('Ocorreu um erro ao tentar editar a turma');
             });
     }
 
@@ -183,10 +210,13 @@ class Main extends React.Component {
         
         axios.delete(`http://localhost:3333/subject/${this.state.idSubjectDelete}`)
         .then((res) => {
-            this.setState({ idSubjectDelete: "" })
-            document.location.reload()
+            this.setState({ idSubjectDelete: "" });
+            document.location.reload();
+            this.toggleSuccessToast('Turma excluída com sucesso');
+
         }).catch((error) => {
-            console.log(error)
+            console.log(error);
+            this.toggleErrorToast('Ocorreu um erro ao tentar excluir a turma');
         });
     }
 
@@ -233,6 +263,7 @@ class Main extends React.Component {
                 axios.post(`http://localhost:3333/qrcode`, dataQR)
                 .then((res) => {
                     this.setState({ imgQR: res.data.data, loaded: true });
+
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -243,13 +274,9 @@ class Main extends React.Component {
 
     }
 
-    userException = (msg) => {
-        console.log('userException Trown: ' + msg);
-    }
-
     hideQRModal = () => {
         this.setState({ showQR: false, keepGoingFlag: false, codeSubjectQR: '', codeClassQR: '' });
-        this.userException('O modal foi fechado. Chamada Encerrada.');
+        this.toggleSuccessToast('Chamada encerrada. Verifique seu email');
     }
 
     showDeleteModal = (idDelete) => {
@@ -290,7 +317,12 @@ class Main extends React.Component {
             time2CodeEdit,
 
             imgQR,
-            passwordDelete
+            passwordDelete,
+
+            successToast,
+            successToastMsg,
+            errorToast,
+            errorToastMsg
         } = this.state;
 
         return (
@@ -691,6 +723,58 @@ class Main extends React.Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
+
+
+                <div className='t-container'>
+
+                    <Toast
+                        id='error-toast-main'
+                        show={errorToast}
+                        onClose={this.toggleErrorToast}
+                        animation={true}
+                        autohide
+                        delay={10000}
+                        className='t-toast'
+                    >
+                        <Toast.Header>
+                            <svg class="bi bi-exclamation-circle-fill t-error-text" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                            </svg>
+                            <div style={{width:'2%'}}></div>
+                            <strong className='mr-auto t-error-text t-font'> Erro </strong>
+                            <small> attendancecontrol </small>
+                        </Toast.Header>
+
+                        <Toast.Body className='t-error-text'>
+                            <p> {errorToastMsg} </p>
+                        </Toast.Body>
+                    </Toast>
+
+                    <Toast
+                        id='success-toast-main'
+                        show={successToast}
+                        onClose={this.toggleSuccessToast}
+                        animation={true}
+                        autohide
+                        delay={10000}
+                        className='t-toast'
+                    >
+                        <Toast.Header>
+                            <svg class="bi bi-check2-all t-success-text" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                                <path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/>
+                            </svg>
+                            <div style={{width:'2%'}}></div>
+                            <strong className='mr-auto t-success-text t-font'> Sucesso </strong>
+                            <small> attendancecontrol </small>
+                        </Toast.Header>
+
+                        <Toast.Body className='t-success-text'>
+                            <p> {successToastMsg} </p>
+                        </Toast.Body>
+                    </Toast>
+
+                </div>
 
             </React.Fragment>
         );
