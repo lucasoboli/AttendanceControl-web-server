@@ -1,6 +1,8 @@
+const { ExportToCsv } = require('export-to-csv');
+const fs = require('fs');
 const Subject = require('../models/Subject');
 const Professor = require('../models/Professor');
-const Student = require('../models/Student')
+const Student = require('../models/Student');
 
 module.exports = {
 
@@ -93,8 +95,8 @@ module.exports = {
         try{
             const subject = await Subject.findByPk(subject_id);
             const student = await Student.findByPk(student_id);
-    
-            if(subject == null || student == null)
+            
+            if(subject === null || student === null)
                 return res.status(400).json({ message: "Disciplina ou aluno não encontrados." });
             
             await subject.addStudent(student);
@@ -103,6 +105,7 @@ module.exports = {
                 .json(subject);
     
         }catch(err){
+            console.log(err)
             return res.status(400).json({ message: "Disciplina ou aluno não encontrados." });
         }
     },

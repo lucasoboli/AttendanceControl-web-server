@@ -147,19 +147,19 @@ class EditUser extends React.Component {
 
             // Encripta a nova senha digitada
             axios.put('http://localhost:3333/encrypt', newPassword)
-                .then((res) => {
+            .then((res) => {
 
-                    // Altera a senha
-                    axios.put('/professor/6/password', { password: res.data.password })
-                    .then((res) => {
-                        document.location.reload()
-                        // ToDo: Acho que pode colocar um modal de senha editada, ou voltar pra página principal [Lucas]
-                    }).catch((error) => {
-                        console.log(error)
-                    });
+                // Altera a senha
+                axios.put('/professor/6/password', { password: res.data.password })
+                .then((res) => {
+                    document.location.reload()
+                    // ToDo: Acho que pode colocar um modal de senha editada, ou voltar pra página principal [Lucas]
                 }).catch((error) => {
                     console.log(error)
                 });
+            }).catch((error) => {
+                console.log(error)
+            });
 
         }).catch((error) => {
             // ToDo: Aparecer que a senha atual está errada [Lucas]
@@ -210,12 +210,25 @@ class EditUser extends React.Component {
     onSubmitDeleteAccount = event => { // ToDo: Conectar c/ Back-end p/ deletar perfil de prof.
         event.preventDefault();
 
-        axios.delete(`http://localhost:3333/professor/7`)
+        const userObject = {
+            email: this.state.userEmailUpdate,
+            password: this.state.passwordDelete
+        };
+
+        // Verifica se a senha atual está correta
+        axios.post('http://localhost:3333/login', userObject)
+        .then((res) => {
+
+            axios.delete(`http://localhost:3333/professor/9`)
             .then((res) => {
                 document.location.reload()
             }).catch((error) => {
                 console.log(error)
             });
+
+        }).catch((error) => {
+            // ToDo: Aparecer que a senha atual está errada [Lucas]
+        });
 
         const isValid = this.validateDeleteAccount();
         if (isValid) {
@@ -230,7 +243,7 @@ class EditUser extends React.Component {
     validateDeleteAccount = () => {
         let passwordDeleteError = '';
 
-        if (this.state.passwordDeleteError.length === 0) {
+        if (this.state.passwordDelete.length === 0) {
             passwordDeleteError = '* Este campo é obrigatório';
         }
 
