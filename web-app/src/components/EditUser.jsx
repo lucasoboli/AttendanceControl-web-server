@@ -124,7 +124,7 @@ class EditUser extends React.Component {
                     this.setState ({ passwordUpdateError: '* Este campo é obrigatório' });
                 } else {
                     this.setState({ passwordUpdateError: '* Senha incorreta' });
-                    this.toggleErrorToast('Senha incorreta. Caso não lembre sua senha, utilize o botão "Esqueci Minha Senha" desta página');
+                    this.toggleErrorToast('Senha incorreta');
                 }
             });
 
