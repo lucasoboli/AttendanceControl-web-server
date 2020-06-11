@@ -5,6 +5,8 @@ const Student = require('../models/Student');
 const Subject = require('../models/Subject');
 const Professor = require('../models/Professor');
 const fs = require('fs');
+const nodemailer = require('nodemailer');
+const path = require('path');
 
 module.exports = {
  
@@ -57,13 +59,11 @@ module.exports = {
                     where: { id: sub.subject_id }
                 });
 
-                const email = await Professor.findOne({
+                const email_prof = await Professor.findOne({
                     attributes: ['email'],
                     raw: true,
                     where: { id: professor.professor_id }
                 });
-
-                console.log(email);
         
                 const options = { 
                     fieldSeparator: ';',
@@ -79,8 +79,36 @@ module.exports = {
 
                 const csvExporter = new ExportToCsv(options);
 
-                const csvData = csvExporter.generateCsv(datas, true)
-                fs.writeFileSync('data.csv',csvData)
+                const csvData = csvExporter.generateCsv(datas, true);
+                fs.writeFileSync('data.csv',csvData);
+
+                var transporte = nodemailer.createTransport({
+                service: 'gmail', // Como mencionei, vamos usar o Gmail
+                auth: {
+                    user: 'controlpresence2020@gmail.com', // Basta dizer qual o nosso usuário
+                    pass: 'presence2020'             // e a senha da nossa conta
+                } 
+                });
+
+                var email = {
+                    from: 'controlpresence2020@gmail.com', // Quem enviou este e-mail
+                    to: email_prof.email, // Quem receberá
+                    subject: 'Node.js ♥ unicode',  // Um assunto bacana :-) 
+                    html: 'E-mail foi enviado do <strong>Node.js</strong>', // O conteúdo do e-mail,
+                    attachments: [{ // Basta incluir esta chave e listar os anexos
+                        filename: 'presenca.csv', // O nome que aparecerá nos anexos
+                        path: path.resolve(__dirname, '..', '..', 'data.csv') // O arquivo será lido neste local ao ser enviado
+                }]
+                };
+                console.log(email_prof);
+
+                transporte.sendMail(email, function(err, info){
+                if(err)
+                    throw err; // Oops, algo de errado aconteceu.
+
+                console.log('Email enviado! Leia as informações adicionais: ', info);
+                });
+
 
                 return res.status(200).json({ message: "E-mail sent successfully!" });
             });
