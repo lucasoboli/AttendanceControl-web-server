@@ -66,7 +66,9 @@ class Main extends React.Component {
             successToast: false,
             successToastMsg: "",
             errorToast: false,
-            errorToastMsg: ""
+            errorToastMsg: "",
+            codeSubjectDelete: "",
+            codeClassDelete: ""
         };
     }
 
@@ -279,12 +281,12 @@ class Main extends React.Component {
         this.toggleSuccessToast('Chamada encerrada. Verifique seu email');
     }
 
-    showDeleteModal = (idDelete) => {
-        this.setState({ showDelete: true, idSubjectDelete: idDelete});
+    showDeleteModal = (idDelete, code_subject, code_class) => {
+        this.setState({ showDelete: true, idSubjectDelete: idDelete, codeSubjectDelete: code_subject, codeClassDelete: code_class});
     }
 
     hideDeleteModal = () => {
-        this.setState({ showDelete: false, codeSubjectDelete: '', codeClassDelete: '' });
+        this.setState({ showDelete: false, idSubjectDelete: '', codeSubjectDelete: '', codeClassDelete: '' });
     }
 
     componentDidMount = () => {
@@ -377,7 +379,7 @@ class Main extends React.Component {
                                             <button
                                                 className='m-table-delete-button'
                                                 type='button'
-                                                onClick={() => this.showDeleteModal(subject.id)}
+                                                onClick={() => this.showDeleteModal(subject.id,subject.code_subject, subject.code_class)}
                                             >
                                                 <svg className="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
