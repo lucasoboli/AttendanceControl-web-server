@@ -1,4 +1,7 @@
 const Student = require('../models/Student');
+const fs = require('fs');
+const PDFParser = require('pdf2json'); // Install pdf2json
+const path = require('path');
 
 module.exports = {
 
@@ -12,57 +15,50 @@ module.exports = {
     // Cadastra um novo aluno
     async create(req, res){
         
-        let fs = require('fs');
-        let PDFParser = require('pdf2json'); // Install pdf2json
-
-        let pdfParser = new PDFParser(this, 1);
-        pdfParser.loadPDF('../../src/utils/Lista/lista_ECOS02.pdf');
+        try {
+            let pdfParser = new PDFParser(this, 1);
+            pdfParser.loadPDF(path.resolve(__dirname, '..', '..', 'utils', 'Listas', 'lista_ECOS02.pdf'));
 
 
-        pdfParser.on('pdfParser_dataError', errData => console.error(errData.parseError));
-        pdfParser.on('pdfParser_dataReady', pdfData => {
+            pdfParser.on('pdfParser_dataError', errData => console.error(errData.parseError));
+            pdfParser.on('pdfParser_dataReady', async (pdfData) => {
 
+                // TEXT
+                // Pega dados a partir do cabeçalho
+                textData = pdfParser.getRawTextContent().split("NOMEMATRICULAASSINATURA").pop();
+                
+                // Padroniza nomes para maiúsculo e remove espaços laterais
+                textData = textData.toUpperCase().trim();
 
-            // TEXT
+                // Remove page count e page break
+                textData = textData.replace(/página[0-9]de[0-9]/gi, '');
+                textData = textData.replace(/-+page \([0-9]\) break.*/gi, '');
 
-            // Pega dados a partir do cabeçalho
-            textData = pdfParser.getRawTextContent().split("NOMEMATRICULAASSINATURA").pop();
-            
-            // Padroniza nomes para maiúsculo e remove espaços laterais
-            textData = textData.toUpperCase().trim();
+                // Separa com ' ' nome de matrícula
+                textData = textData.replace(/[^0-9](?=[0-9])/g, '$& ');
 
-            // Remove page count e page break
-            textData = textData.replace(/página[0-9]de[0-9]/gi, '');
-            textData = textData.replace(/-+page \([0-9]\) break.*/gi, '');
-
-            // Separa com ' ' nome de matrícula
-            textData = textData.replace(/[^0-9](?=[0-9])/g, '$& ');
-
-            // Apenas para checar como está a saída em .txt
-            fs.writeFile('students.txt', textData, function (err, result) {
-                if (err) console.log('error', err);
-            });
-            
-        
-
-            let students = [];
-
-            fs.readFile('students.txt', 'utf-8', function(err, data){
-                var linha = data.split(/\r?\n/);
-
-                linha.forEach(function(linha) {
-
-                    var student = new Object();
-                    student.name = linha.replace(/[0-9]+/g, '  ').trim();
-                    student.id = parseInt(linha.split(/[a-z]+/i).pop().trim());
-
-                    students.push(student);
+                // Apenas para checar como está a saída em .txt
+                fs.writeFile('students.txt', textData, async (err, result) => {
+                    await (err) ? console.log('error', err) : '';
                 });
 
-                console.log(students);
-            });
+                fs.readFile('students.txt', 'utf-8', function(err, data){
+                    var linha = data.split(/\r?\n/);
 
-        });
+                    linha.forEach(async(linha) => {
+                        name = linha.replace(/[0-9]+/g, '  ').trim();
+                        id = parseInt(linha.split(/[a-z]+/i).pop().trim());
+
+                        await Student.create({ id, name, phone: '99999999' });
+                    });
+
+                    return res.status(201).json({ message: "Cadastro realizado com sucesso!" });
+                });
+
+            });
+        }catch(err) {
+            return res.status(400).json({ message: "Erro ao cadastrar alunos, tente novamente." });
+        }
     }, 
 
     // Retorna um aluno específico
