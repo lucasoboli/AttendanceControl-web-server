@@ -6,11 +6,11 @@
 ```
 
 ## Installation
-Run inside *web-app* directory:
+Run inside *web-app* and directory:
 - `npm install` : performs the installation of packages needed for the front-end operation.
 
 Run inside db directory:
-- `npm install` : performs the installation of packages needed for the database operation.
+- `npm install` : performs the installation of packages needed for the back-end operation.
 
 
 ## Scripts
