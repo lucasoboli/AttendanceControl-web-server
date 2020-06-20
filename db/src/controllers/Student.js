@@ -1,6 +1,7 @@
 const Student = require('../models/Student');
 const fs = require('fs');
 const PDFParser = require('pdf2json'); // Install pdf2json
+const path = require('path');
 
 module.exports = {
 
@@ -13,15 +14,15 @@ module.exports = {
 
     // Cadastra um novo aluno
     async create(req, res) {
-        const path = req.file.path;
-        console.log(path)
+
         //console.log(req.body)
         console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         console.log(req.headers)
+        
         try {
             let pdfParser = new PDFParser(this, 1);
             
-            pdfParser.loadPDF(req.body.file);
+            pdfParser.loadPDF(path.resolve(__dirname, '..', '..', 'utils', 'Listas', 'lista-0.pdf'));
 
             pdfParser.on('pdfParser_dataError', errData => console.error(errData.parseError));
             pdfParser.on('pdfParser_dataReady', async (pdfData) => {

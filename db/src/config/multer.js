@@ -2,24 +2,28 @@ const multer = require("multer");
 const path = require ("path");
 const crypto = require ("crypto");
 
+var number = 0;
+
 module.exports = {
-    dest: path.resolve(__dirname, "..", "..", "tmp", "uploads"),
+    dest: path.resolve(__dirname, "..", "..", "utils", "Listas"),
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, path.resolve(__dirname, "..", "..", "tmp", "uploads"));
+            cb(null, path.resolve(__dirname, "..", "..", "utils", "Listas"));
         },
         filename: (req, file, cb) => {
             crypto.randomBytes(16, (err, hash) => {// Para arquivos inseridos pelos professores não darem overwrite caso possuam o mesmo nome
                 if (err) cb(err);
 
-                const fileName = `${hash.toString("hex")}-${file.originalname}`;
+                //const fileName = `${hash.toString("hex")}-${file.originalname}`;
+                const fileName = `${"lista"}-${number}${".pdf"}`;
+                //++number;
 
                 cb(null, fileName);
             });
         },
     }),
-    limits: {//   5    KB     MB => 5MB
-        fileSize: 5 * 1024 * 1024,
+    limits: {//   2    KB     MB => 5MB
+        fileSize: 2 * 1024 * 1024,
     },
     fileFilter: (req, file, cb) => {
         const allowedMimes = [

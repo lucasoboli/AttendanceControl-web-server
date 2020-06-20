@@ -4,6 +4,7 @@ const QRCode = require('../controllers/QRCode');
 const Student = require('../controllers/Student');
 const ExportCsv = require('../controllers/GeneratedCsv');
 const multer = require("multer");
+const multerConfig = require("../config/multer");
 
 const upload = multer();
 
@@ -52,7 +53,7 @@ module.exports = (app) => {
     app
         .route('/student')
         .get(Student.index)
-        .post(upload.single('file'), Student.create)
+        .post(multer(multerConfig).single("file"), Student.create)
     
     app
         .route('/student/:id')
