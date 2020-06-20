@@ -36,12 +36,13 @@ class Main extends React.Component {
             classCodeRegister: "",
             timeCodeRegister: "",
             time2CodeRegister: "",
-            studentsFileRegister: "",
+            studentsFileRegister: null,
             subjectCodeRegisterError: "",
             subjectNameRegisterError: "",
             classCodeRegisterError: "",
             timeCodeRegisterError: "",
             studentsFileRegisterError: "",
+            loaded: "",
 
             // Para campos de Edição
             subjectIdEdit: "",
@@ -79,6 +80,13 @@ class Main extends React.Component {
         });
     }
 
+    handleChangeFile = event => {
+        this.setState({
+            studentsFileRegister: event.target.value, 
+        });
+        console.log(event.target.files[0].name)
+    }
+
     toggleSuccessToast = (msg) => {
         const {successToast, successToastMsg} = this.state;
 
@@ -110,15 +118,40 @@ class Main extends React.Component {
             code_time: timeCodeRegister + ' ' + time2CodeRegister
         };
 
+        console.log(studentsFileRegister);
+    
+    /*  const file = new Blob([studentsFileRegister], { type: 'application/pdf' });
+        console.log(file) */
+    /*      
+        var fReader = new FileReader();
+        fReader.readAsDataURL(input.files[0]);
+        fReader.onloadend = function(event){
+            var img = document.getElementById("fileStudents");
+            img.src = event.target.result;
+        }
+    */
+ 
+        const formData = new FormData();
+
+        formData.append("file", studentsFileRegister);
+
         axios.post('http://localhost:3333/professor/3/subject/', data)
+        .then((res) => {
+            axios.post('http://localhost:3333/student', formData, {
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
+            })
             .then((res) => {
+                console.log(res.statusText)
                 this.setState({showRegister: false});
                 document.location.reload();
                 setTimeout(function(){ this.toggleSuccessToast('Uma nova turma foi cadastrada'); }, 3000);
-
             }).catch((error) => {
                 console.log(error);
             });
+
+        }).catch((error) => {
+            console.log(error);
+        });
 
         const isValid = this.validate();
         if (isValid) {
@@ -502,10 +535,11 @@ class Main extends React.Component {
                                     <Form.File
                                         custom
                                         required
+                                        id='fileStudents'
                                         label='.pdf'
                                         name='studentsFileRegister'
                                         value={studentsFileRegister}
-                                        onChange={this.handleChange}
+                                        onChange={this.handleChangeFile}
                                     >
                                     </Form.File>
                                 </div>

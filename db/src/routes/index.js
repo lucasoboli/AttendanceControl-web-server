@@ -3,6 +3,10 @@ const Subject = require('../controllers/Subject');
 const QRCode = require('../controllers/QRCode');
 const Student = require('../controllers/Student');
 const ExportCsv = require('../controllers/GeneratedCsv');
+const multer = require("multer");
+
+const upload = multer();
+
 
 const { token, auth, encrypt } = require('../controllers/Authentication');
 
@@ -48,7 +52,7 @@ module.exports = (app) => {
     app
         .route('/student')
         .get(Student.index)
-        .post(Student.create)
+        .post(upload.single('file'), Student.create)
     
     app
         .route('/student/:id')
