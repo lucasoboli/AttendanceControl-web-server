@@ -19,7 +19,7 @@ const initialRegisterErrorState = {
     subjectNameRegisterError: "",
     classCodeRegisterError: "",
     timeCodeRegisterError: "",
-    studentsFileRegisterError: ""
+    //studentsFileRegisterError: ""
 };
 
 
@@ -41,7 +41,7 @@ class Main extends React.Component {
             subjectNameRegisterError: "",
             classCodeRegisterError: "",
             timeCodeRegisterError: "",
-            studentsFileRegisterError: "",
+            //studentsFileRegisterError: "",
             loaded: "",
 
             // Para campos de Edição
@@ -80,11 +80,12 @@ class Main extends React.Component {
         });
     }
 
-    handleChangeFile = event => {
-        this.setState({
-            studentsFileRegister: event.target.value, 
-        });
-        console.log(event.target.files[0].name)
+    handleUploadFile = event => {
+        const data = new FormData();
+        data.append('file', event.target.files[0]);
+        data.append('name', 'some value user types');
+        data.append('description', 'some value user types');
+        this.setState({ studentsFileRegister: data });   
     }
 
     toggleSuccessToast = (msg) => {
@@ -118,31 +119,15 @@ class Main extends React.Component {
             code_time: timeCodeRegister + ' ' + time2CodeRegister
         };
 
-        console.log(studentsFileRegister);
-    
-    /*  const file = new Blob([studentsFileRegister], { type: 'application/pdf' });
-        console.log(file) */
-    /*      
-        var fReader = new FileReader();
-        fReader.readAsDataURL(input.files[0]);
-        fReader.onloadend = function(event){
-            var img = document.getElementById("fileStudents");
-            img.src = event.target.result;
-        }
-    */
- 
-        const formData = new FormData();
-
-        formData.append("file", studentsFileRegister);
-
         axios.post('http://localhost:3333/professor/3/subject/', data)
         .then((res) => {
-            axios.post('http://localhost:3333/student', formData, {
-                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
+
+            axios.post('http://localhost:3333/student', studentsFileRegister, {
+                'Content-Type': `multipart/form-data;`
             })
             .then((res) => {
                 console.log(res.statusText)
-                this.setState({showRegister: false});
+                this.setState({ showRegister: false });
                 document.location.reload();
                 setTimeout(function(){ this.toggleSuccessToast('Uma nova turma foi cadastrada'); }, 3000);
             }).catch((error) => {
@@ -166,7 +151,7 @@ class Main extends React.Component {
         let subjectNameRegisterError = '';
         let classCodeRegisterError = '';
         let timeCodeRegisterError = '';
-        let studentsFileRegisterError = '';
+        //let studentsFileRegisterError = '';
 
         if (this.state.subjectCodeRegister.length === 0) {
             subjectCodeRegisterError = '* O campo "Código" é obrigatório';
@@ -199,10 +184,10 @@ class Main extends React.Component {
         //  }
 
         if (subjectCodeRegisterError || subjectNameRegisterError || classCodeRegisterError ||
-            timeCodeRegisterError || studentsFileRegisterError) {
+            timeCodeRegisterError) {
 
             this.setState({ subjectCodeRegisterError, subjectNameRegisterError, classCodeRegisterError,
-                timeCodeRegisterError, studentsFileRegisterError});
+                timeCodeRegisterError});
             
             return false;
         }
@@ -343,7 +328,7 @@ class Main extends React.Component {
             classCodeRegister,
             timeCodeRegister,
             time2CodeRegister,
-            studentsFileRegister,
+            //studentsFileRegister,
 
             subjectCodeEdit,
             subjectNameEdit,
@@ -531,17 +516,7 @@ class Main extends React.Component {
 
                             <Form.Group>
                                 <div className='rc-form-file-input'>
-                                    <Form.Label htmlFor='students-file'> Arquivo com Nome e Matrícula dos Alunos </Form.Label>
-                                    <Form.File
-                                        custom
-                                        required
-                                        id='fileStudents'
-                                        label='.pdf'
-                                        name='studentsFileRegister'
-                                        value={studentsFileRegister}
-                                        onChange={this.handleChangeFile}
-                                    >
-                                    </Form.File>
+                                    <input type="file" onChange={this.handleUploadFile} />
                                 </div>
                             </Form.Group>
 
@@ -561,7 +536,6 @@ class Main extends React.Component {
                         <div> {this.state.subjectNameRegisterError} </div>
                         <div> {this.state.classCodeRegisterError} </div>                    
                         <div> {this.state.timeCodeRegisterError} </div>
-                        <div> {this.state.studentsFileRegisterError} </div>
                     </div>
 
                     <Modal.Footer>
