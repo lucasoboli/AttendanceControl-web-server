@@ -514,11 +514,9 @@ class Main extends React.Component {
                                 </div>
                             </Form.Group>
 
-                            <Form.Group>
-                                <div className='rc-form-file-input'>
-                                    <input type="file" onChange={this.handleUploadFile} />
-                                </div>
-                            </Form.Group>
+                                <Form.Group>
+                                    <input type='file' size='100' onChange={this.handleUploadFile} />
+                                </Form.Group>
 
                             <div className='rc-button-position'>
                                 <Button

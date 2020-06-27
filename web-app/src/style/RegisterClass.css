@@ -42,11 +42,6 @@
     color: rgb(255, 150, 64) !important;
 }
 
-.rc-form-file-input {
-    width: 60%;
-    padding-bottom: 2%;
-}
-
 .rc-button-position {
     text-align: center;
 }
