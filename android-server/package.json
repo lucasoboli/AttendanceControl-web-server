@@ -10,7 +10,7 @@
     "parse-json": "^5.0.0",
     "qrcode": "^1.4.4",
     "request-promise-native": "^1.0.8",
-    "socket.io": "^1.7.3"
+    "socket.io": "^2.4.0"
   },
   "scripts": {
     "start": "node index.js"
